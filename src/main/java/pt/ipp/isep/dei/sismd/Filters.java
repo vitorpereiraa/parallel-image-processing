@@ -1,3 +1,4 @@
+package pt.ipp.isep.dei.sismd;
 
 import java.awt.Color;
 import java.io.IOException;

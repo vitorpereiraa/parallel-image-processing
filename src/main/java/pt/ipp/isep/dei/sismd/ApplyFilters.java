@@ -1,3 +1,5 @@
+package pt.ipp.isep.dei.sismd;
+
 import java.io.IOException;
 import java.util.Scanner;
 
