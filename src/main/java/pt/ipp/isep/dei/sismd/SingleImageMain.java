@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.sismd;
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filter.BluerFilter;
 import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
+import pt.ipp.isep.dei.sismd.multithreaded.MultithreadedBlurFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,7 +101,7 @@ public class SingleImageMain {
 
     private static Image applyBlurFilter(Image image) {
         System.out.println("Applying Blur Filter...");
-        return new BluerFilter().apply(image);
+        return new MultithreadedBlurFilter(8).apply(image);
     }
 
     private static Image applyGlassFilter(Image image) {

@@ -4,6 +4,7 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filter.BluerFilter;
 import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
 import pt.ipp.isep.dei.sismd.filter.ImageFilter;
+import pt.ipp.isep.dei.sismd.multithreaded.MultithreadedBlurFilter;
 
 import java.io.File;
 import java.util.*;
@@ -23,6 +24,7 @@ public class MultipleProcessMain {
         Queue<File> dirs = new LinkedList<>();
         dirs.add(imgsDir);
         List<File> files = new LinkedList<>();
+        System.out.println("=========================================================================================================");
         System.out.println("Images that will be processed:\n");
         while (!dirs.isEmpty()) {
             File f = dirs.poll();
@@ -34,10 +36,12 @@ public class MultipleProcessMain {
             System.out.println(f.getName());
             files.add(f);
         }
+        System.out.println("=========================================================================================================");
+        System.out.println();
 
         List<ImageNamePair> images = files.stream().map(f -> new ImageNamePair(f.getName(), Utils.loadImage(f))).toList();
 
-
+        System.out.println("=========================================================================================================");
         System.out.println("Filters that will be applied:");
         System.out.println("Brighter Filter");
         System.out.println("Gray Scale Filter");
@@ -45,6 +49,7 @@ public class MultipleProcessMain {
         System.out.println("Glass Filter");
         System.out.println("Blur Filter");
         System.out.println("Conditional Blur Filter");
+        System.out.println("=========================================================================================================");
 
         long startTime = System.nanoTime();
         List<ImageNamePair> processedImages = applyBrighterFilter(images);
@@ -78,23 +83,23 @@ public class MultipleProcessMain {
     }
 
 
-    private static Image applyConditionalBlurFilter(Image image) {
+    private static List<ImageNamePair> applyConditionalBlurFilter(List<ImageNamePair> image) {
         return null;
     }
 
     private static List<ImageNamePair> applyBlurFilter(List<ImageNamePair> images) {
-        return apply(images, new BluerFilter());
+        return apply(images, new MultithreadedBlurFilter(8));
     }
 
-    private static Image applyGlassFilter(Image image) {
+    private static List<ImageNamePair> applyGlassFilter(List<ImageNamePair> images) {
         return null;
     }
 
-    private static Image applySwirlFilter(Image image) {
+    private static List<ImageNamePair> applySwirlFilter(List<ImageNamePair> images) {
         return null;
     }
 
-    private static Image applyGrayScaleFilter(Image image) {
+    private static List<ImageNamePair> applyGrayScaleFilter(List<ImageNamePair> images) {
         return null;
     }
 
@@ -112,15 +117,6 @@ public class MultipleProcessMain {
     }
 
 
-    private static int readFileKey(Scanner input) {
-        System.out.println();
-        System.out.print("> ");
 
-        String res = input.nextLine();
-        if (res.matches("\\d+")) {
-            return Integer.parseInt(res);
-        }
-        return -1;
-    }
 }
 

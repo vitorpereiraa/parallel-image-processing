@@ -19,7 +19,7 @@ public class BluerFilter implements ImageFilter {
         return new Image(pixelMatrix);
     }
 
-    private Color calculateBlur(int i, int j, Image image) {
+    protected Color calculateBlur(int i, int j, Image image) {
         int redSum = 0;
         int greenSum = 0;
         int blueSum = 0;
