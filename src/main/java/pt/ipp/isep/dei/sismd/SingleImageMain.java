@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Main {
+public class SingleImageMain {
 
     private static final int BRIGHTNESS = 128;
 
@@ -17,14 +17,15 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
 
-        File imgsDir = new File(Main.class.getClassLoader().getResource("imgs/turtle.jpg").getPath()).getParentFile();
+        File resourceFile = new File(SingleImageMain.class.getClassLoader().getResource("imgs/resource.txt").getPath());
+        File imgsDir = resourceFile.getParentFile();
 
         Queue<File> dirs = new LinkedList<>();
-        Main.class.getClassLoader().getResource("imgs/turtle.jpg").getPath();
         dirs.add(imgsDir);
         List<File> images = new LinkedList<>();
         while (!dirs.isEmpty()) {
             File f = dirs.poll();
+            if (f.getAbsolutePath().equals(resourceFile.getAbsolutePath())) continue;
             if (f.isDirectory()) {
                 Collections.addAll(dirs, Objects.requireNonNull(f.listFiles()));
                 continue;
@@ -37,6 +38,7 @@ public class Main {
         System.out.println("Choose an image to apply filter:\n");
         for (File image : images) {
             System.out.printf("%d - %s%n", key + 1, image.getName());
+            key++;
         }
         int num = -1;
         do {
@@ -64,6 +66,7 @@ public class Main {
             num = readFileKey(input);
             if (num <= 0 || num > 6) {
                 System.out.println("Invalid option!");
+                num=-1;
             }
         } while (num <= 0);
 
@@ -123,7 +126,7 @@ public class Main {
 
         String res = input.nextLine();
         if (res.matches("\\d+")) {
-            return  Integer.parseInt(res);
+            return Integer.parseInt(res);
         }
         return -1;
     }
