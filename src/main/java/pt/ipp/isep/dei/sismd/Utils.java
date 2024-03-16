@@ -17,11 +17,11 @@ public class Utils {
     /**
      * Loads image from filename into a Color (pixels decribed with rgb values) matrix.
      *
-     * @param filename the name of the imge in the filesystem.
+     * @param file the name of the imge in the filesystem.
      * @return Color matrix.
      */
-    public static Image loadImage(String filename) {
-        BufferedImage buffImg = loadImageFile(filename);
+    public static Image loadImage(File file) {
+        BufferedImage buffImg = loadImageFile(file);
         return convertTo2DFromBuffered(buffImg);
     }
 
@@ -31,13 +31,12 @@ public class Utils {
      * @param image    the matrix of Color objects.
      * @param filename to the image.
      */
-    public static void writeImage(Image image, String filename) {
-        File outputfile = new File(filename);
+    public static void writeImage(Image image, File outputFile) {
         var bufferedImage = Utils.matrixToBuffered(image);
         try {
-            ImageIO.write(bufferedImage, "jpg", outputfile);
+            ImageIO.write(bufferedImage, "jpg", outputFile);
         } catch (IOException e) {
-            System.out.println("Could not write image " + filename + " !");
+            System.out.println("Could not write image " + outputFile.getName() + " !");
             e.printStackTrace();
             System.exit(1);
         }
@@ -50,12 +49,12 @@ public class Utils {
      * @param filename The path to the file to read.
      * @return a BufferedImage if able to be read, NULL otherwise.
      */
-    private static BufferedImage loadImageFile(String filename) {
+    private static BufferedImage loadImageFile(File image) {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(filename));
+            img = ImageIO.read(image);
         } catch (IOException e) {
-            System.out.println("Could not load image " + filename + " !");
+            System.out.println("Could not load image " + image.getName() + " !");
             e.printStackTrace();
             System.exit(1);
         }
