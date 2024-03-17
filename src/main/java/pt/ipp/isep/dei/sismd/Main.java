@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
+import pt.ipp.isep.dei.sismd.filter.GlassFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class Main {
         input.close();
 
         Image image = Utils.loadImage(filePath);
-        Image transformedImage = new BrighterFilter(128).apply(image);
+        Image transformedImage = new GlassFilter().apply(image);
 
         File outputDir = new File("./out");
         if (outputDir.isDirectory() && !outputDir.exists()) {
