@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class GlassFilter implements ImageFilter {
 
-    private int distance = 5;
+    private int distance = 20;
 
     public GlassFilter(int distance) {
         this.distance = distance;
@@ -24,10 +24,11 @@ public class GlassFilter implements ImageFilter {
         Color[][] pixelMatrix = new Color[numberOfRows][numberOfColumns];
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfColumns; j++) {
-                int randomDistance = rand.nextInt(distance) - distance * 2;
+                int offsetI = rand.nextInt(distance) - distance * 2;
+                int offsetJ = rand.nextInt(distance) - distance * 2;
 
-                int randomI = Math.min(Math.max(0,i + randomDistance), numberOfRows - 1);
-                int randomJ = Math.min(Math.max(0,j + randomDistance), numberOfColumns - 1);
+                int randomI = Math.min(Math.max(0,i + offsetI), numberOfRows - 1);
+                int randomJ = Math.min(Math.max(0,j + offsetJ), numberOfColumns - 1);
 
                 Color color = image.obtainPixel(randomI, randomJ);
 
