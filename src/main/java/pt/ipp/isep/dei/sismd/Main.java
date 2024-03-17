@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.sismd;
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
 import pt.ipp.isep.dei.sismd.filter.GlassFilter;
+import pt.ipp.isep.dei.sismd.filter.GlassFilterMultithreaded;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class Main {
         input.close();
 
         Image image = Utils.loadImage(filePath);
-        Image transformedImage = new GlassFilter().apply(image);
+        Image transformedImage = new GlassFilterMultithreaded().apply(image);
 
         File outputDir = new File("./out");
         if (outputDir.isDirectory() && !outputDir.exists()) {
