@@ -1,0 +1,3 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: iterations"
+"pt.ipp.isep.dei.sismd.benchmarking.Benchmarks.benchmark_glass_filter_multithreaded","avgt",1,25,489931.847371,5704.023442,"us/op",10
+"pt.ipp.isep.dei.sismd.benchmarking.Benchmarks.benchmark_glass_filter_sequential","avgt",1,25,1960746.383600,14758.157843,"us/op",10
