@@ -1,7 +1,6 @@
 package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BluerFilter;
 import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
 import pt.ipp.isep.dei.sismd.multithreaded.MultithreadedBlurFilter;
 

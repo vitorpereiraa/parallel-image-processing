@@ -2,13 +2,13 @@ package pt.ipp.isep.dei.sismd.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BluerFilter;
+import pt.ipp.isep.dei.sismd.filter.BlurFilter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public class ExecutorBlurFilter extends BluerFilter {
+public class ExecutorBlurFilter extends BlurFilter {
 
     private class BlurTask implements Callable<Color[]> {
 

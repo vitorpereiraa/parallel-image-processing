@@ -3,7 +3,7 @@ package pt.ipp.isep.dei.sismd.filter;
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
 
-public class BluerFilter implements ImageFilter {
+public class BlurFilter implements ImageFilter {
 
 
     @Override

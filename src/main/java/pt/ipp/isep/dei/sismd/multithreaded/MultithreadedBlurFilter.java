@@ -2,12 +2,12 @@ package pt.ipp.isep.dei.sismd.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BluerFilter;
+import pt.ipp.isep.dei.sismd.filter.BlurFilter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultithreadedBlurFilter extends BluerFilter {
+public class MultithreadedBlurFilter extends BlurFilter {
 
     private final int numberOfThreads;
 
