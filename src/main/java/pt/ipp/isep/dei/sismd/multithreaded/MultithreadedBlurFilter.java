@@ -73,7 +73,7 @@ public class MultithreadedBlurFilter extends BluerFilter {
         int higher = range;
 
         for (int i = 0; i < numberOfThreads; i++) {
-            if (i==7) higher= image.width();
+            if (i==numberOfThreads-1) higher= image.width();
             result.add(new Thread(localGroup, new AlgorithmRunner(lower, higher, sharedMatrix, image)));
             lower = higher;
             higher += range;

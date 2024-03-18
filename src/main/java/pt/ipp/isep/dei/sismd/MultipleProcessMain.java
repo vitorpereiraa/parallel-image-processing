@@ -4,6 +4,7 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filter.BluerFilter;
 import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
 import pt.ipp.isep.dei.sismd.filter.ImageFilter;
+import pt.ipp.isep.dei.sismd.multithreaded.ExecutorBlurFilter;
 import pt.ipp.isep.dei.sismd.multithreaded.MultithreadedBlurFilter;
 
 import java.io.File;
@@ -88,7 +89,7 @@ public class MultipleProcessMain {
     }
 
     private static List<ImageNamePair> applyBlurFilter(List<ImageNamePair> images) {
-        return apply(images, new MultithreadedBlurFilter(8));
+        return apply(images, new ExecutorBlurFilter(8));
     }
 
     private static List<ImageNamePair> applyGlassFilter(List<ImageNamePair> images) {
