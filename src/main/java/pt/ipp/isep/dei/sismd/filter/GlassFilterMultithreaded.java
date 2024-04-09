@@ -11,8 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GlassFilterMultithreaded implements ImageFilter {
 
     private int distance = 40;
-    private int numberOfThreads = 5;
-
+    private int numberOfThreads = 10;
     private AtomicInteger numberOfRowsLeft;
 
     public GlassFilterMultithreaded(int distance, int numberOfThreads) {
@@ -24,9 +23,7 @@ public class GlassFilterMultithreaded implements ImageFilter {
     }
 
     public int getRow() {
-        int row = this.numberOfRowsLeft.get();
-        this.numberOfRowsLeft = new AtomicInteger(row - 1);
-        return row;
+        return this.numberOfRowsLeft.getAndAdd(-1);
     }
 
     @Override

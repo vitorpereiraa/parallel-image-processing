@@ -26,7 +26,7 @@ public class Main {
         if (outputDir.isDirectory() && !outputDir.exists()) {
             outputDir.mkdirs();
         }
-        Utils.writeImage(transformedImage, "brighter.jpg");
+        Utils.writeImage(transformedImage, "glass.jpg");
     }
 
 }

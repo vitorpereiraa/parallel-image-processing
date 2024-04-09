@@ -5,36 +5,29 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 
 import java.util.Random;
 
-public class GlassFilter implements ImageFilter {
+public class GlassFilter implements Filter {
 
-    private int distance = 20;
+    private final int distance;
+    private final Random rand = new Random();
+    private final Image imageToProcess;
+    int numberOfRows;
+    int numberOfColumns;
 
-    public GlassFilter(int distance) {
+    public GlassFilter(int distance, Image imageToProcess) {
         this.distance = distance;
+        this.imageToProcess = imageToProcess;
+        this.numberOfColumns = imageToProcess.width();
+        this.numberOfRows = imageToProcess.height();
     }
 
-    public GlassFilter() {}
-
     @Override
-    public Image apply(Image image) {
-        Random rand = new Random();
-        int numberOfRows = image.height();
-        int numberOfColumns = image.width();
+    public Color filter(int i, int j){
+        int offsetI = rand.nextInt(distance) - distance * 2;
+        int offsetJ = rand.nextInt(distance) - distance * 2;
 
-        Color[][] pixelMatrix = new Color[numberOfRows][numberOfColumns];
-        for (int i = 0; i < numberOfRows; i++) {
-            for (int j = 0; j < numberOfColumns; j++) {
-                int offsetI = rand.nextInt(distance) - distance * 2;
-                int offsetJ = rand.nextInt(distance) - distance * 2;
+        int randomI = Math.min(Math.max(0,i + offsetI), numberOfRows - 1);
+        int randomJ = Math.min(Math.max(0,j + offsetJ), numberOfColumns - 1);
 
-                int randomI = Math.min(Math.max(0,i + offsetI), numberOfRows - 1);
-                int randomJ = Math.min(Math.max(0,j + offsetJ), numberOfColumns - 1);
-
-                Color color = image.obtainPixel(randomI, randomJ);
-
-                pixelMatrix[i][j]=color;
-            }
-        }
-        return new Image(pixelMatrix);
+        return imageToProcess.obtainPixel(randomI, randomJ);
     }
 }
