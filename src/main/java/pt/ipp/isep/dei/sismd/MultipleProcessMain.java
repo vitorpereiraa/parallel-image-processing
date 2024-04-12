@@ -1,9 +1,10 @@
 package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
-import pt.ipp.isep.dei.sismd.filter.ImageFilter;
-import pt.ipp.isep.dei.sismd.multithreaded.ExecutorBlurFilter;
+import pt.ipp.isep.dei.sismd.executors.ThreadPoolExecutor;
+import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
+import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
+import pt.ipp.isep.dei.sismd.multithreaded.ExecutorBlurFilterExecutor;
 
 import java.io.File;
 import java.util.*;
@@ -58,7 +59,7 @@ public class MultipleProcessMain {
         System.out.printf("Brighter Filter Applied in %.3f\n", seconds);
         File outputDir = new File("./out/brighter");
         outputDir.mkdirs();
-        persistImages(processedImages,"brighter");
+        persistImages(processedImages, "brighter");
 
 
         startTime = System.nanoTime();
@@ -69,14 +70,14 @@ public class MultipleProcessMain {
         System.out.printf("Blur Filter Applied in %.3f\n", seconds);
         outputDir = new File("./out/blur");
         outputDir.mkdirs();
-        persistImages(processedImages,"blur");
+        persistImages(processedImages, "blur");
 
     }
 
 
     private static void persistImages(List<ImageNamePair> images, String filterName) {
         images.forEach(pair -> {
-            File outputFile = new File("./out/"+filterName+"/" + pair.name());
+            File outputFile = new File("./out/" + filterName + "/" + pair.name());
             Utils.writeImage(pair.image(), outputFile);
         });
     }
@@ -87,7 +88,7 @@ public class MultipleProcessMain {
     }
 
     private static List<ImageNamePair> applyBlurFilter(List<ImageNamePair> images) {
-        return apply(images, new ExecutorBlurFilter(8));
+        return apply(images, new ExecutorBlurFilterExecutor(8));
     }
 
     private static List<ImageNamePair> applyGlassFilter(List<ImageNamePair> images) {
@@ -103,18 +104,17 @@ public class MultipleProcessMain {
     }
 
     private static List<ImageNamePair> applyBrighterFilter(List<ImageNamePair> images) {
-        return apply(images, new BrighterFilter(BRIGHTNESS));
+        return apply(images, new ThreadPoolExecutor(new BrighterFilter(BRIGHTNESS)));
     }
 
 
-    private static List<ImageNamePair> apply(List<ImageNamePair> images, ImageFilter filter) {
+    private static List<ImageNamePair> apply(List<ImageNamePair> images, FilterExecutor filter) {
         List<ImageNamePair> result = new ArrayList<>(images.size());
         for (ImageNamePair pair : images) {
             result.add(new ImageNamePair(pair.name(), filter.apply(pair.image())));
         }
         return result;
     }
-
 
 
 }

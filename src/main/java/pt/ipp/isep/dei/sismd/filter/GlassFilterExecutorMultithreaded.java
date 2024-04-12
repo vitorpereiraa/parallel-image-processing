@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GlassFilterMultithreaded implements ImageFilter {
+public class GlassFilterExecutorMultithreaded implements FilterExecutor {
 
     private int distance = 40;
     private int numberOfThreads = 10;
     private AtomicInteger numberOfRowsLeft;
 
-    public GlassFilterMultithreaded(int distance, int numberOfThreads) {
+    public GlassFilterExecutorMultithreaded(int distance, int numberOfThreads) {
         this.distance = distance;
         this.numberOfThreads = numberOfThreads;
     }
 
-    public GlassFilterMultithreaded() {
+    public GlassFilterExecutorMultithreaded() {
     }
 
     public int getRow() {

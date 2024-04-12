@@ -2,7 +2,7 @@ package pt.ipp.isep.dei.sismd.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
+import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,26 +40,6 @@ public class MultithreadedBrighterFilter extends BrighterFilter {
                 }
             }
         }
-    }
-
-
-    @Override
-    public Image apply(Image image) {
-        Color[][] pixelMatrix = new Color[image.height()][image.width()];
-        ThreadGroup group = new ThreadGroup("MultithreadedBrightFilter");
-        List<Thread> threads = createThreads(group, image, pixelMatrix);
-        threads.forEach(Thread::start);
-        while (!threads.isEmpty()) {
-            try {
-                threads.getFirst().join();
-                threads.removeFirst();
-            } catch (InterruptedException e) {
-                System.err.println("[WARNING] Error while applying blur...");
-                System.err.println(e);
-                System.out.println("Continuing waiting...");
-            }
-        }
-        return new Image(pixelMatrix);
     }
 
 

@@ -2,7 +2,7 @@ package pt.ipp.isep.dei.sismd.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
+import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,29 +43,5 @@ public class ExecutorBrighterFilter extends BrighterFilter {
     public ExecutorBrighterFilter(int brightness, int numberOfThreads) {
         super(brightness);
         this.service = new ForkJoinPool(numberOfThreads);
-    }
-
-
-    @Override
-    public Image apply(Image image) {
-        Color[][] pixelMatrix = new Color[image.height()][image.width()];
-        Map<Integer, Future<Color[]>> scheduler = new HashMap<>();
-        for (int i = 0; i < image.height(); i++) {
-            try {
-                scheduler.put(i, service.submit(new BrightTask(i, image)));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        for (Map.Entry<Integer, Future<Color[]>> integerFutureEntry : scheduler.entrySet()) {
-            try {
-                pixelMatrix[integerFutureEntry.getKey()] = integerFutureEntry.getValue().get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-        return new Image(pixelMatrix);
     }
 }

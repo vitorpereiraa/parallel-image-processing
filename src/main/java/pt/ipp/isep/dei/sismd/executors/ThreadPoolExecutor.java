@@ -1,25 +1,44 @@
-package pt.ipp.isep.dei.sismd.multithreaded;
+package pt.ipp.isep.dei.sismd.executors;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BlurFilter;
+import pt.ipp.isep.dei.sismd.filter.Filter;
+import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public class ExecutorBlurFilter extends BlurFilter {
+public class ThreadPoolExecutor implements FilterExecutor {
 
-    private class BlurTask implements Callable<Color[]> {
+    private int numThreds;
+    private ExecutorService service;
 
-        private int i;
+    private Filter filter;
+
+    public ThreadPoolExecutor(int numThreds, Filter filter) {
+        this.numThreds = numThreds;
+        this.service = new ForkJoinPool(numThreds);
+        this.filter = filter;
+    }
+
+    public ThreadPoolExecutor(Filter filter) {
+        this(Runtime.getRuntime().availableProcessors(), filter);
+    }
+
+    private class Task implements Callable<Color[]> {
+
+        private int row;
 
         private Image image;
 
+        private Filter filter;
 
-        public BlurTask(int i, Image image) {
-            this.i = i;
+
+        public Task(int row, Filter filter, Image image) {
+            this.row = row;
             this.image = image;
+            this.filter = filter;
         }
 
 
@@ -27,25 +46,11 @@ public class ExecutorBlurFilter extends BlurFilter {
         public Color[] call() {
             Color[] row = new Color[image.width()];
             for (int j = 0; j < image.width(); j++) {
-                row[j] = calculateBlur(i, j, image);
+                row[j] = filter.filter(this.row, j, image);
             }
             return row;
         }
     }
-
-    private int numThreds;
-    private ExecutorService service;
-
-
-    public ExecutorBlurFilter() {
-        this(Runtime.getRuntime().availableProcessors()-1);
-    }
-
-    public ExecutorBlurFilter(int numThreds) {
-        this.numThreds = numThreds;
-        this.service = new ForkJoinPool(numThreds);
-    }
-
 
     @Override
     public Image apply(Image image) {
@@ -53,7 +58,7 @@ public class ExecutorBlurFilter extends BlurFilter {
         Map<Integer, Future<Color[]>> scheduler = new HashMap<>();
         for (int i = 0; i < image.height(); i++) {
             try {
-                scheduler.put(i, service.submit(new BlurTask(i, image)));
+                scheduler.put(i, service.submit(new Task(i, filter, image)));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

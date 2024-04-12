@@ -1,8 +1,9 @@
 package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.BrighterFilter;
-import pt.ipp.isep.dei.sismd.multithreaded.MultithreadedBlurFilter;
+import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
+import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
+import pt.ipp.isep.dei.sismd.multithreaded.MultithreadedBlurFilterExecutor;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class SingleImageMain {
             num = readFileKey(input);
             if (num <= 0 || num > 6) {
                 System.out.println("Invalid option!");
-                num=-1;
+                num = -1;
             }
         } while (num <= 0);
 
@@ -100,7 +101,7 @@ public class SingleImageMain {
 
     private static Image applyBlurFilter(Image image) {
         System.out.println("Applying Blur Filter...");
-        return new MultithreadedBlurFilter(8).apply(image);
+        return new MultithreadedBlurFilterExecutor(8).apply(image);
     }
 
     private static Image applyGlassFilter(Image image) {
@@ -117,7 +118,7 @@ public class SingleImageMain {
 
     private static Image applyBrighterFilter(Image image) {
         System.out.println("Applying Brightness Filter with " + BRIGHTNESS + " of brightness...");
-        return new BrighterFilter(BRIGHTNESS).apply(image);
+        return new SequentialExecutor(new BrighterFilter(BRIGHTNESS)).apply(image);
     }
 
     private static int readFileKey(Scanner input) {

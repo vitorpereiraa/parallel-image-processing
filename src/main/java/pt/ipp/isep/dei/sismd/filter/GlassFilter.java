@@ -9,19 +9,17 @@ public class GlassFilter implements Filter {
 
     private final int distance;
     private final Random rand = new Random();
-    private final Image imageToProcess;
     int numberOfRows;
     int numberOfColumns;
 
-    public GlassFilter(int distance, Image imageToProcess) {
+    public GlassFilter(int distance) {
         this.distance = distance;
-        this.imageToProcess = imageToProcess;
-        this.numberOfColumns = imageToProcess.width();
-        this.numberOfRows = imageToProcess.height();
     }
 
     @Override
-    public Color filter(int i, int j){
+    public Color filter(int i, int j, Image imageToProcess){
+        this.numberOfColumns = imageToProcess.width();
+        this.numberOfRows = imageToProcess.height();
         int offsetI = rand.nextInt(distance) - distance * 2;
         int offsetJ = rand.nextInt(distance) - distance * 2;
 
