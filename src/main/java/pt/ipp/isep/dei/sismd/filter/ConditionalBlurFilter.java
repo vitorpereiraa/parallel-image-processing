@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ConditionalBlurFilter implements ImageFilter {
+public class ConditionalBlurFilter implements FilterExecutor {
 
     int m = 1;
     @Override

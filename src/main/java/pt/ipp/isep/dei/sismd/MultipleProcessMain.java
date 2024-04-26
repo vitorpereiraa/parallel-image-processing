@@ -1,7 +1,7 @@
 package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.executors.ThreadPoolExecutor;
+import pt.ipp.isep.dei.sismd.executors.ExecutorServiceExecutor;
 import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
 import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
 import pt.ipp.isep.dei.sismd.multithreaded.ExecutorBlurFilterExecutor;
@@ -104,7 +104,7 @@ public class MultipleProcessMain {
     }
 
     private static List<ImageNamePair> applyBrighterFilter(List<ImageNamePair> images) {
-        return apply(images, new ThreadPoolExecutor(new BrighterFilter(BRIGHTNESS)));
+        return apply(images, new ExecutorServiceExecutor(new BrighterFilter(BRIGHTNESS)));
     }
 
 
