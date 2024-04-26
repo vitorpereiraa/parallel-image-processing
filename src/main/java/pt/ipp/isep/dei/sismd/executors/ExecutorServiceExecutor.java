@@ -5,28 +5,26 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filter.Filter;
 import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.*;
 
-public class ThreadPoolExecutor implements FilterExecutor {
+public class ExecutorServiceExecutor implements FilterExecutor {
 
     private int numThreds;
     private ExecutorService service;
 
     private Filter filter;
 
-    public ThreadPoolExecutor(int numThreds, Filter filter) {
+    public ExecutorServiceExecutor(int numThreds, Filter filter) {
         this.numThreds = numThreds;
-        this.service = new ForkJoinPool(numThreds);
+        this.service = Executors.newCachedThreadPool();
         this.filter = filter;
     }
 
-    public ThreadPoolExecutor(Filter filter) {
+    public ExecutorServiceExecutor(Filter filter) {
         this(Runtime.getRuntime().availableProcessors(), filter);
     }
 
-    private class Task implements Callable<Color[]> {
+    private class Task implements Runnable {
 
         private int row;
 
@@ -34,42 +32,44 @@ public class ThreadPoolExecutor implements FilterExecutor {
 
         private Filter filter;
 
+        private Color[][] sharedMatrix;
 
-        public Task(int row, Filter filter, Image image) {
+
+        public Task(int row, Filter filter, Image image, Color[][] sharedMatrix) {
             this.row = row;
             this.image = image;
             this.filter = filter;
+            this.sharedMatrix = sharedMatrix;
         }
 
-
         @Override
-        public Color[] call() {
-            Color[] row = new Color[image.width()];
+        public void run() {
+            Color[] row = sharedMatrix[this.row];
             for (int j = 0; j < image.width(); j++) {
                 row[j] = filter.filter(this.row, j, image);
             }
-            return row;
         }
     }
 
     @Override
     public Image apply(Image image) {
         Color[][] pixelMatrix = new Color[image.height()][image.width()];
-        Map<Integer, Future<Color[]>> scheduler = new HashMap<>();
         for (int i = 0; i < image.height(); i++) {
             try {
-                scheduler.put(i, service.submit(new Task(i, filter, image)));
+               service.submit(new Task(i, filter, image, pixelMatrix));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
 
-        for (Map.Entry<Integer, Future<Color[]>> integerFutureEntry : scheduler.entrySet()) {
+        while (true) {
             try {
-                pixelMatrix[integerFutureEntry.getKey()] = integerFutureEntry.getValue().get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+
+                boolean r = service.awaitTermination(5, TimeUnit.MINUTES);
+                if (!r) System.out.println("Oh oh! It did not stop!");
+                break;
+            } catch (InterruptedException e) {
+                System.out.println("NO!");
             }
         }
         return new Image(pixelMatrix);
