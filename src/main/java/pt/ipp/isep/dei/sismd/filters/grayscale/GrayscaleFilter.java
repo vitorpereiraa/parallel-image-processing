@@ -7,7 +7,7 @@ import pt.ipp.isep.dei.sismd.filters.Filter;
 public interface GrayscaleFilter extends Filter {
 
     @Override
-    default Color filter(int i, int j, Image image) {
+    default Color apply(int i, int j, Image image) {
         Color pixel = image.obtainPixel(i, j);
         int r = pixel.red();
         int g = pixel.green();

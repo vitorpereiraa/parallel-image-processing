@@ -9,7 +9,7 @@ public interface SwirlFilter extends Filter {
     record ImageCoordinate(int x, int y){}
 
     @Override
-    default Color filter(int i, int j, Image image) {
+    default Color apply(int i, int j, Image image) {
         var currentCoordinate = new ImageCoordinate(i, j);
         var centerCoordinate = getCenterCoordinate(image.height(), image.width());
         var swirlCoordinate = getSwirlCoordinateOf(currentCoordinate, centerCoordinate);

@@ -53,7 +53,7 @@ public class ForkJoinExecutor implements FilterExecutor {
             if ((endRow - startRow) * (endCol - startCol) <= threshold) {
                 for (int i = startRow; i < endRow; i++) {
                     for (int j = startCol; j < endCol; j++) {
-                        sharedOutput[i][j] = filter.filter(i, j, imageToProcess);
+                        sharedOutput[i][j] = filter.apply(i, j, imageToProcess);
                     }
                 }
             } else {

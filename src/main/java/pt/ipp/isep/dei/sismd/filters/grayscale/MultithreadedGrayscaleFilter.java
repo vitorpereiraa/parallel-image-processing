@@ -21,7 +21,7 @@ public class MultithreadedGrayscaleFilter implements FilterExecutor, GrayscaleFi
             final Thread threadToProcessSlice = new Thread(() -> {
                 for (int x = sliceStartX; x < sliceEndX ; x++) {
                     for (int y = 0; y < image.width(); y++) {
-                        final Color grayscalePixel = filter(x,y,image);
+                        final Color grayscalePixel = apply(x,y,image);
                         pixelMatrix[x][y] = grayscalePixel;
                     }
                 }

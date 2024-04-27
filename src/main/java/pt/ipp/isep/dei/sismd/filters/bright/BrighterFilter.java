@@ -23,7 +23,7 @@ public class BrighterFilter implements Filter {
 
 
     @Override
-    public Color filter(int i, int j, Image image) {
+    public Color apply(int i, int j, Image image) {
         Color color = image.obtainPixel(i, j);
         return new Color(Math.min(color.red() + brightness, MAX_HUE_VALUE),
                 Math.min(color.green() + brightness, MAX_HUE_VALUE),

@@ -17,7 +17,7 @@ public class CompletableFutureGrayscaleFilter implements FilterExecutor, Graysca
             final int finalX = x;
             CompletableFuture.runAsync(() -> {
                 for (int y = 0; y < image.width(); y++) {
-                    final Color grayscalePixel = filter(finalX, y, image);
+                    final Color grayscalePixel = apply(finalX, y, image);
                     pixelMatrix[finalX][y] = grayscalePixel;
                 }
             });

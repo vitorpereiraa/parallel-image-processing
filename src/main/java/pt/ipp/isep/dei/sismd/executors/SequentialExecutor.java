@@ -18,7 +18,7 @@ public class SequentialExecutor implements FilterExecutor {
         Color[][] pixelMatrix = new Color[image.height()][image.width()];
         for (int i = 0; i < image.height(); i++) {
             for (int j = 0; j < image.width(); j++) {
-                pixelMatrix[i][j] = filter.filter(i, j,image);
+                pixelMatrix[i][j] = filter.apply(i, j,image);
             }
         }
         return new Image(pixelMatrix);

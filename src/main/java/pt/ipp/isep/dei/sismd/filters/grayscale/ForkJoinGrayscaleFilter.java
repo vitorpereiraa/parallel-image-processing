@@ -47,7 +47,7 @@ public class ForkJoinGrayscaleFilter implements FilterExecutor, GrayscaleFilter 
             if(startX <= originalImage.height()/16 || endX <= originalImage.height()/16) {
                 for (int x = startX; x < endX; x++) {
                     for (int y = startY; y < endY; y++) {
-                        pixelMatrix[x][y] = filter(x, y, originalImage);
+                        pixelMatrix[x][y] = apply(x, y, originalImage);
                     }
                 }
             } else {

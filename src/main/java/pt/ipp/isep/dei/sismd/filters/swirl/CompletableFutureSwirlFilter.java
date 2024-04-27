@@ -17,7 +17,7 @@ public class CompletableFutureSwirlFilter implements FilterExecutor, SwirlFilter
             final int finalX = x;
             CompletableFuture.runAsync(() -> {
                 for (int y = 0; y < image.width(); y++) {
-                    final Color swirlFilter = filter(finalX, y, image);
+                    final Color swirlFilter = apply(finalX, y, image);
                     pixelMatrix[finalX][y] = swirlFilter;
                 }
             });

@@ -11,7 +11,7 @@ public class SequentialGrayscaleFilter implements FilterExecutor, GrayscaleFilte
         final Color[][] pixelMatrix = new Color[image.height()][image.width()];
         for (int i = 0; i < image.height(); i++) {
             for (int j = 0; j < image.width(); j++) {
-                final Color grayscalePixel = filter(i,j,image);
+                final Color grayscalePixel = apply(i,j,image);
                 pixelMatrix[i][j] = grayscalePixel;
             }
         }

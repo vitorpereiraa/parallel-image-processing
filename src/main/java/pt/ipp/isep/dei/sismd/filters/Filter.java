@@ -5,6 +5,6 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 
 public interface Filter {
 
-    Color filter(int i, int j, Image image);
+    Color apply(int i, int j, Image image);
 
 }

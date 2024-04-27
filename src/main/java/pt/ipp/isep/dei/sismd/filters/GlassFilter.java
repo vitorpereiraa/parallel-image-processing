@@ -17,7 +17,7 @@ public class GlassFilter implements Filter {
     }
 
     @Override
-    public Color filter(int i, int j, Image imageToProcess){
+    public Color apply(int i, int j, Image imageToProcess){
         this.numberOfColumns = imageToProcess.width();
         this.numberOfRows = imageToProcess.height();
         int offsetI = rand.nextInt(distance) - distance * 2;

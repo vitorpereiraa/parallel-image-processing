@@ -48,7 +48,7 @@ public class ExecutorsExecutor implements FilterExecutor {
         public void run() {
             Color[] row = sharedMatrix[this.row];
             for (int j = 0; j < image.width(); j++) {
-                row[j] = filter.filter(this.row, j, image);
+                row[j] = filter.apply(this.row, j, image);
             }
         }
     }

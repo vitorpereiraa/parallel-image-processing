@@ -21,7 +21,7 @@ public class MultithreadedSwirlFilter implements FilterExecutor, SwirlFilter {
             final Thread threadToProcessSlice = new Thread(() -> {
                 for (int x = sliceStartX; x < sliceEndX ; x++) {
                     for (int y = 0; y < image.width(); y++) {
-                        final Color swirlPixel = filter(x,y,image);
+                        final Color swirlPixel = apply(x,y,image);
                         pixelMatrix[x][y] = swirlPixel ;
                     }
                 }

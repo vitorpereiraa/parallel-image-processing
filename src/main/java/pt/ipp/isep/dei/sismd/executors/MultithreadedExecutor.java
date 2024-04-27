@@ -66,7 +66,7 @@ public class MultithreadedExecutor implements FilterExecutor {
         public void run() {
             for (int i = 0; i < imageToProcess.height(); i++) {
                 for (int j = lowerWidthBound; j < higherWidthBound; j++) {
-                    sharedOutput[i][j] = this.filter.filter(i, j,imageToProcess);
+                    sharedOutput[i][j] = this.filter.apply(i, j,imageToProcess);
                 }
             }
         }

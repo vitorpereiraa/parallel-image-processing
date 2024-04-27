@@ -8,7 +8,7 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import pt.ipp.isep.dei.sismd.Utils;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.executors.MultiThreadedExecutor;
+import pt.ipp.isep.dei.sismd.executors.MultithreadedExecutor;
 import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
 import pt.ipp.isep.dei.sismd.filters.Filter;
 
@@ -52,7 +52,7 @@ public class FilterBenchmark {
 
     @Benchmark
     public Image multithreaded() {
-        return new MultiThreadedExecutor(filter).apply(image);
+        return new MultithreadedExecutor(filter).apply(image);
     }
 
     public static void main(String[] args) throws RunnerException {
