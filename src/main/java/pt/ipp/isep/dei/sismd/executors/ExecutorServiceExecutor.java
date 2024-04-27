@@ -5,6 +5,8 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filter.Filter;
 import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class ExecutorServiceExecutor implements FilterExecutor {
@@ -54,24 +56,25 @@ public class ExecutorServiceExecutor implements FilterExecutor {
     @Override
     public Image apply(Image image) {
         Color[][] pixelMatrix = new Color[image.height()][image.width()];
+        List<Future<?>> list = new LinkedList<>();
         for (int i = 0; i < image.height(); i++) {
             try {
-               service.submit(new Task(i, filter, image, pixelMatrix));
+                Future<?> f = service.submit(new Task(i, filter, image, pixelMatrix));
+                list.add(f);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
 
-        while (true) {
-            try {
 
-                boolean r = service.awaitTermination(5, TimeUnit.MINUTES);
-                if (!r) System.out.println("Oh oh! It did not stop!");
-                break;
-            } catch (InterruptedException e) {
-                System.out.println("NO!");
+        for (Future<?> f : list) {
+            try {
+                f.get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
             }
         }
+
         return new Image(pixelMatrix);
     }
 }
