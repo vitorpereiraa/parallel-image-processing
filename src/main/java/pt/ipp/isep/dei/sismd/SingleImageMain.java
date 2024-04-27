@@ -3,13 +3,13 @@ package pt.ipp.isep.dei.sismd;
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
 import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
-import pt.ipp.isep.dei.sismd.lixo.multithreaded.MultithreadedBlurFilterExecutor;
+import pt.ipp.isep.dei.sismd.lixo.multithreaded.MultithreadedBlurFilter;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+@Deprecated
 public class SingleImageMain {
 
     private static final int BRIGHTNESS = 128;
@@ -101,7 +101,7 @@ public class SingleImageMain {
 
     private static Image applyBlurFilter(Image image) {
         System.out.println("Applying Blur Filter...");
-        return new MultithreadedBlurFilterExecutor(8).apply(image);
+        return null;
     }
 
     private static Image applyGlassFilter(Image image) {

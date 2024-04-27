@@ -4,11 +4,11 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.ExecutorsExecutorPerLine;
 import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
 import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
-import pt.ipp.isep.dei.sismd.lixo.multithreaded.ExecutorBlurFilterExecutor;
+import pt.ipp.isep.dei.sismd.lixo.multithreaded.ExecutorBlurFilter;
 
 import java.io.File;
 import java.util.*;
-
+@Deprecated
 public class MultipleImagesMain {
 
     private static final int BRIGHTNESS = 128;
@@ -88,7 +88,7 @@ public class MultipleImagesMain {
     }
 
     private static List<ImageNamePair> applyBlurFilter(List<ImageNamePair> images) {
-        return apply(images, new ExecutorBlurFilterExecutor(8));
+        return null;
     }
 
     private static List<ImageNamePair> applyGlassFilter(List<ImageNamePair> images) {
