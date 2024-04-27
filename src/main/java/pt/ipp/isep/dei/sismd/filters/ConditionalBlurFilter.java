@@ -22,6 +22,11 @@ public class ConditionalBlurFilter implements Filter {
         this.filterCondition = filterCondition;
     }
 
+    public ConditionalBlurFilter() {
+        blurEffect = 1;
+        this.filterCondition = color -> color.red() > color.blue() && color.red() > color.green();
+    }
+
 
     @Override
     public Color apply(int i, int j, Image image) {
