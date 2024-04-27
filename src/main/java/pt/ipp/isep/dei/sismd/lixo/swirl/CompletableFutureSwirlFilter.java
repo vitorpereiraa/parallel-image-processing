@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
-public class CompletableFutureSwirlFilter implements FilterExecutor, SwirlFilter {
+public class CompletableFutureSwirlFilter extends SwirlFilter implements FilterExecutor {
 
     @Override
     public Image apply(Image image) {

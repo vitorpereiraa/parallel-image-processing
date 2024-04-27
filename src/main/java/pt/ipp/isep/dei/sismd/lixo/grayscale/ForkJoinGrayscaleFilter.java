@@ -9,7 +9,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 
-public class ForkJoinGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class ForkJoinGrayscaleFilter extends GrayscaleFilter implements FilterExecutor {
 
     @Override
     public Image apply(Image image) {

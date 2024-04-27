@@ -7,7 +7,7 @@ import pt.ipp.isep.dei.sismd.filters.GrayscaleFilter;
 
 import java.util.concurrent.CountDownLatch;
 
-public class MultithreadedGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class MultithreadedGrayscaleFilter extends GrayscaleFilter implements FilterExecutor {
 
     @Override
     public Image apply(Image image) {

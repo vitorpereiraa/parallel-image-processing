@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class ExecutorGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class ExecutorGrayscaleFilter extends GrayscaleFilter implements FilterExecutor {
 
     @Override
     public Image apply(Image image) {

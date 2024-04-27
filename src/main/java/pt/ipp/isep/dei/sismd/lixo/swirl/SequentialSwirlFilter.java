@@ -5,7 +5,7 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
 import pt.ipp.isep.dei.sismd.filters.SwirlFilter;
 
-public class SequentialSwirlFilter implements FilterExecutor, SwirlFilter {
+public class SequentialSwirlFilter extends SwirlFilter implements FilterExecutor {
 
     @Override
     public Image apply(Image image) {

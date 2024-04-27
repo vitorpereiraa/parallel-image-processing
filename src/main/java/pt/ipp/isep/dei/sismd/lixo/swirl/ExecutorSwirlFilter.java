@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class ExecutorSwirlFilter implements FilterExecutor, SwirlFilter {
+public class ExecutorSwirlFilter extends SwirlFilter implements FilterExecutor {
 
     @Override
     public Image apply(Image image) {

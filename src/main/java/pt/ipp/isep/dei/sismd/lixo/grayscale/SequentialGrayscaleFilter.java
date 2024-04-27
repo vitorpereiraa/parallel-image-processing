@@ -5,7 +5,7 @@ import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
 import pt.ipp.isep.dei.sismd.filters.GrayscaleFilter;
 
-public class SequentialGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class SequentialGrayscaleFilter extends GrayscaleFilter implements FilterExecutor  {
 
     @Override
     public Image apply(Image image) {

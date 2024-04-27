@@ -9,7 +9,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 
-public class ForkJoinSwirlFilter implements FilterExecutor, SwirlFilter {
+public class ForkJoinSwirlFilter extends SwirlFilter implements FilterExecutor {
 
     @Override
     public Image apply(Image image) {

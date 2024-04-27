@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
-public class CompletableFutureGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class CompletableFutureGrayscaleFilter extends GrayscaleFilter implements FilterExecutor  {
 
     @Override
     public Image apply(Image image) {
