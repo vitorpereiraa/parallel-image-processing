@@ -6,7 +6,7 @@ import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
 
 import java.util.concurrent.CountDownLatch;
 
-public class MultithreadedSwirlFilterExecutor implements FilterExecutor, SwirlFilter {
+public class MultithreadedSwirlFilter implements FilterExecutor, SwirlFilter {
 
     @Override
     public Image apply(Image image) {

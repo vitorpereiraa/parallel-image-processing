@@ -1,0 +1,6 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: pathToFile"
+"completableFuture","avgt",1,5,12.815483,6.147774,"ms/op",turtle.jpg
+"executor","avgt",1,5,1.676144,0.240734,"ms/op",turtle.jpg
+"forkJoin","avgt",1,5,1.564317,0.062690,"ms/op",turtle.jpg
+"multithreaded","avgt",1,5,1.496181,0.050704,"ms/op",turtle.jpg
+"sequential","avgt",1,5,1.359043,0.043396,"ms/op",turtle.jpg

@@ -1,7 +1,5 @@
 package pt.ipp.isep.dei.sismd.domain;
 
-import pt.ipp.isep.dei.sismd.Utils;
-
 public class Image {
     private final Color[][] pixelMatrix;
 

@@ -6,11 +6,11 @@ import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
 
 import java.util.concurrent.CountDownLatch;
 
-public class MultithreadedGrayscaleFilterExecutor implements FilterExecutor, GrayscaleFilter {
+public class MultithreadedGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
 
     @Override
     public Image apply(Image image) {
-        Color[][] pixelMatrix = new Color[image.height()][image.width()];
+        final Color[][] pixelMatrix = new Color[image.height()][image.width()];
         final int numberOfThreads = Runtime.getRuntime().availableProcessors();
         final CountDownLatch countDownLatch = new CountDownLatch(numberOfThreads);
 

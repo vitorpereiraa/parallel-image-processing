@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.sismd.filter.grayscale;
+package pt.ipp.isep.dei.sismd.filter.swirl;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
-public class CompletableFutureGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class CompletableFutureSwirlFilter implements FilterExecutor, SwirlFilter {
 
     @Override
     public Image apply(Image image) {
@@ -17,8 +17,8 @@ public class CompletableFutureGrayscaleFilter implements FilterExecutor, Graysca
             final int finalX = x;
             CompletableFuture.runAsync(() -> {
                 for (int y = 0; y < image.width(); y++) {
-                    final Color grayscalePixel = filter(finalX, y, image);
-                    pixelMatrix[finalX][y] = grayscalePixel;
+                    final Color swirlFilter = filter(finalX, y, image);
+                    pixelMatrix[finalX][y] = swirlFilter;
                 }
             });
         }

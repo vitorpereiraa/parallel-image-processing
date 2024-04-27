@@ -1,0 +1,6 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: pathToFile"
+"completableFuture","avgt",1,5,17.217881,1.211316,"ms/op",src/main/resources/imgs/4k/city-night-4k.png
+"executor","avgt",1,5,17.743816,0.828478,"ms/op",src/main/resources/imgs/4k/city-night-4k.png
+"forkJoin","avgt",1,5,39.268811,3.023726,"ms/op",src/main/resources/imgs/4k/city-night-4k.png
+"multithreaded","avgt",1,5,15.486447,0.165610,"ms/op",src/main/resources/imgs/4k/city-night-4k.png
+"sequential","avgt",1,5,32.878598,0.503091,"ms/op",src/main/resources/imgs/4k/city-night-4k.png
