@@ -10,7 +10,7 @@ import pt.ipp.isep.dei.sismd.Utils;
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.MultiThreadedExecutor;
 import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
-import pt.ipp.isep.dei.sismd.filter.Filter;
+import pt.ipp.isep.dei.sismd.filters.Filter;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

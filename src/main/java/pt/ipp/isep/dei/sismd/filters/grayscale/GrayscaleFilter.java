@@ -1,8 +1,8 @@
-package pt.ipp.isep.dei.sismd.filter.grayscale;
+package pt.ipp.isep.dei.sismd.filters.grayscale;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.Filter;
+import pt.ipp.isep.dei.sismd.filters.Filter;
 
 public interface GrayscaleFilter extends Filter {
 

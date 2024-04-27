@@ -2,10 +2,8 @@ package pt.ipp.isep.dei.sismd.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
+import pt.ipp.isep.dei.sismd.filters.bright.BrighterFilter;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.*;
 
 public class ExecutorBrighterFilter extends BrighterFilter {

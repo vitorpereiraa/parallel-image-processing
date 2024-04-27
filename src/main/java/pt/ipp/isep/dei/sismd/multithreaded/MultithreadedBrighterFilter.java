@@ -2,7 +2,7 @@ package pt.ipp.isep.dei.sismd.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
+import pt.ipp.isep.dei.sismd.filters.bright.BrighterFilter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.sismd.filter.grayscale;
+package pt.ipp.isep.dei.sismd.filters.grayscale;
 
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.results.format.ResultFormatType;

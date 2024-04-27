@@ -1,9 +1,8 @@
-package pt.ipp.isep.dei.sismd.filter.swirl;
+package pt.ipp.isep.dei.sismd.filters.swirl;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
-import pt.ipp.isep.dei.sismd.filter.grayscale.GrayscaleFilter;
+import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

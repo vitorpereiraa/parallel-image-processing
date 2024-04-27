@@ -2,14 +2,14 @@ package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.ExecutorServiceExecutor;
-import pt.ipp.isep.dei.sismd.filter.FilterExecutor;
-import pt.ipp.isep.dei.sismd.filter.bright.BrighterFilter;
+import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
+import pt.ipp.isep.dei.sismd.filters.bright.BrighterFilter;
 import pt.ipp.isep.dei.sismd.multithreaded.ExecutorBlurFilterExecutor;
 
 import java.io.File;
 import java.util.*;
 
-public class MultipleProcessMain {
+public class MultipleImagesMain {
 
     private static final int BRIGHTNESS = 128;
 
