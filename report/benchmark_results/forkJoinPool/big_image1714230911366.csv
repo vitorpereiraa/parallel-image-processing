@@ -1,0 +1,6 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
+threshold_100_000,"avgt",1,15,1643.025033,124.743956,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/4k/city-night-4k.png
+threshold_10_000,"avgt",1,15,1679.236649,97.257925,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/4k/city-night-4k.png
+threshold_25_000,"avgt",1,15,1636.082550,108.764053,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/4k/city-night-4k.png
+threshold_50_000,"avgt",1,15,1611.626476,75.408897,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/4k/city-night-4k.png
+threshold_5_000,"avgt",1,15,1772.434532,39.999810,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/4k/city-night-4k.png

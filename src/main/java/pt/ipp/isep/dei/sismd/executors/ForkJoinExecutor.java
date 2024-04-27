@@ -20,7 +20,7 @@ public class ForkJoinExecutor implements FilterExecutor {
 
     public ForkJoinExecutor(Filter filterAlgorithm) {
         this.filterAlgorithm = filterAlgorithm;
-        this.threshold = 100;
+        this.threshold = 10_000;
     }
 
     @Override

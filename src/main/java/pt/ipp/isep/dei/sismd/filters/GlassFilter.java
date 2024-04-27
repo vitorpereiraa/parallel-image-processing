@@ -7,10 +7,12 @@ import java.util.Random;
 
 public class GlassFilter implements Filter {
 
-    private final int distance;
+    private int distance = 20;
     private final Random rand = new Random();
     int numberOfRows;
     int numberOfColumns;
+
+    public GlassFilter(){};
 
     public GlassFilter(int distance) {
         this.distance = distance;
