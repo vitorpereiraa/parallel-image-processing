@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ExecutorsExecutorTest {
+class ExecutorsExecutorPerLineTest {
 
     public static final String fileName = "turtle.jpg";
     public static final String filePath = "src/main/resources/imgs/" + fileName;
@@ -21,7 +21,7 @@ class ExecutorsExecutorTest {
         Image image = Utils.loadImage(new File(filePath));
         Filter brighter= new BrighterFilter(20);
         Image sequentialResult = new SequentialExecutor(brighter).apply(image);
-        Image executorsResult = new ExecutorsExecutor(brighter).apply(image);
+        Image executorsResult = new ExecutorsExecutorPerLine(brighter).apply(image);
         assertTrue(Arrays.deepEquals(sequentialResult.getPixelMatrix(), executorsResult.getPixelMatrix()));
     }
 }

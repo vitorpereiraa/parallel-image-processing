@@ -20,8 +20,8 @@ public class CompletableFutureExecutorPerPixel implements FilterExecutor {
     public Image apply(Image image) {
         final Color[][] pixelMatrix = new Color[image.height()][image.width()];
         for (int x = 0; x < image.height(); x++) {
+            final int finalX = x;
             for (int y = 0; y < image.width(); y++) {
-                final int finalX = x;
                 final int finalY = y;
                 CompletableFuture.runAsync(() -> {
                         final Color filteredPixel = filter.apply(finalX, finalY, image);
