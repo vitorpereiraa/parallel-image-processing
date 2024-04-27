@@ -9,20 +9,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class ExecutorServiceExecutor implements FilterExecutor {
+public class ExecutorsExecutor implements FilterExecutor {
 
     private int numThreds;
     private ExecutorService service;
 
     private Filter filter;
 
-    public ExecutorServiceExecutor(int numThreds, Filter filter) {
+    public ExecutorsExecutor(int numThreds, Filter filter) {
         this.numThreds = numThreds;
         this.service = Executors.newCachedThreadPool();
         this.filter = filter;
     }
 
-    public ExecutorServiceExecutor(Filter filter) {
+    public ExecutorsExecutor(Filter filter) {
         this(Runtime.getRuntime().availableProcessors(), filter);
     }
 

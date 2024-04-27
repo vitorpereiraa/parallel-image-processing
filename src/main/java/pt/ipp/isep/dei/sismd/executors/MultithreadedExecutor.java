@@ -8,18 +8,18 @@ import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiThreadedExecutor implements FilterExecutor {
+public class MultithreadedExecutor implements FilterExecutor {
 
     private final int numberOfThreads;
 
     private Filter filterAlgorithm;
 
-    public MultiThreadedExecutor(int numberOfThreads, Filter filterAlgorithm) {
+    public MultithreadedExecutor(int numberOfThreads, Filter filterAlgorithm) {
         this.numberOfThreads = numberOfThreads;
         this.filterAlgorithm = filterAlgorithm;
     }
 
-    public MultiThreadedExecutor(Filter filterAlgorithm) {
+    public MultithreadedExecutor(Filter filterAlgorithm) {
         this(Runtime.getRuntime().availableProcessors()-1, filterAlgorithm);
     }
 
