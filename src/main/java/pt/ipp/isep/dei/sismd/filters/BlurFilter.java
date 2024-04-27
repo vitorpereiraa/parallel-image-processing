@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 public class BlurFilter extends ConditionalBlurFilter {
 
     private static Predicate<Color> DEFAULT_FILTER = color -> true;
-    protected int blurEffect;
 
     public BlurFilter(int blurEffect) {
         super(blurEffect, DEFAULT_FILTER);
