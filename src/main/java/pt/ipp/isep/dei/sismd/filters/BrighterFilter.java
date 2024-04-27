@@ -13,6 +13,9 @@ public class BrighterFilter implements Filter {
         this.brightness = brightness;
     }
 
+    public BrighterFilter() {
+        this.brightness = 100;
+    }
 
     protected Color bright(int i, int j, Image image) {
         Color color = image.obtainPixel(i, j);

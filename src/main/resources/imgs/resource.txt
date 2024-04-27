@@ -1,1 +1,0 @@
-//Needed to guide the resources folder
