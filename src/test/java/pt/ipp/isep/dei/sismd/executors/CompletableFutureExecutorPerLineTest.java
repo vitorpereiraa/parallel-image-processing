@@ -9,9 +9,9 @@ import pt.ipp.isep.dei.sismd.filters.Filter;
 import java.io.File;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-class MultithreadedExecutorTest {
+class CompletableFutureExecutorPerLineTest {
 
     public static final String fileName = "turtle.jpg";
     public static final String filePath = "src/main/resources/imgs/" + fileName;
@@ -19,9 +19,9 @@ class MultithreadedExecutorTest {
     @Test
     void apply() {
         Image image = Utils.loadImage(new File(filePath));
-        Filter brighter= new BrighterFilter(100);
+        Filter brighter= new BrighterFilter(20);
         Image sequentialResult = new SequentialExecutor(brighter).apply(image);
-        Image multithreadedResult = new MultithreadedExecutor(brighter).apply(image);
-        assertTrue(Arrays.deepEquals(sequentialResult.getPixelMatrix(), multithreadedResult.getPixelMatrix()));
+        Image completableFutureResult = new CompletableFutureExecutorPerLine(brighter).apply(image);
+        assertTrue(Arrays.deepEquals(sequentialResult.getPixelMatrix(), completableFutureResult.getPixelMatrix()));
     }
 }
