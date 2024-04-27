@@ -14,16 +14,15 @@ public class MultithreadedGrayscaleFilterExecutor implements FilterExecutor, Gra
         final int numberOfThreads = Runtime.getRuntime().availableProcessors();
         final CountDownLatch countDownLatch = new CountDownLatch(numberOfThreads);
 
-        final int sliceWidth = image.width() / numberOfThreads;
-        final int sliceHeight = image.height();
+        final int sliceHeight = image.height() / numberOfThreads;
         for (int i = 0; i < numberOfThreads ; i++) {
-            final int sliceStartX = i * sliceWidth;
-            final int sliceEndX = (i == numberOfThreads - 1) ? image.width() : (i + 1) * sliceWidth;
+            final int sliceStartX = i * sliceHeight;
+            final int sliceEndX = (i == numberOfThreads - 1) ? image.height() : (i + 1) * sliceHeight;
             final Thread threadToProcessSlice = new Thread(() -> {
                 for (int x = sliceStartX; x < sliceEndX ; x++) {
-                    for (int y = 0; y < sliceHeight; y++) {
-                        final Color grayscalePixel = filter(y,x,image);
-                        pixelMatrix[y][x]=grayscalePixel;
+                    for (int y = 0; y < image.width(); y++) {
+                        final Color grayscalePixel = filter(x,y,image);
+                        pixelMatrix[x][y] = grayscalePixel;
                     }
                 }
                 countDownLatch.countDown();
@@ -33,9 +32,8 @@ public class MultithreadedGrayscaleFilterExecutor implements FilterExecutor, Gra
 
         try {
             countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e); // todo: is it relevant to be ready for interruptions? Yes! If pixel is interrupted mid operations because of an error or low memory, prompting the garbage collector to activate, the filter must go on
-        }
+        } catch (InterruptedException ignored){}
+
         return new Image(pixelMatrix);
     }
 }
