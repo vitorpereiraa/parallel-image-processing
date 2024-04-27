@@ -6,7 +6,7 @@ import pt.ipp.isep.dei.sismd.filters.Filter;
 
 public class SequentialExecutor implements FilterExecutor {
     
-    private Filter filter;
+    private final Filter filter;
 
     public SequentialExecutor(Filter filter) {
         this.filter = filter;
