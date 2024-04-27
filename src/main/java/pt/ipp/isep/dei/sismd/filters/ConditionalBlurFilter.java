@@ -2,47 +2,47 @@ package pt.ipp.isep.dei.sismd.filters;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Predicate;
 
 
-public class ConditionalBlurFilter implements FilterExecutor {
+public class ConditionalBlurFilter implements Filter {
 
-    int m = 1;
-    @Override
-    public Image apply(Image image) {
-       Color[][] pixelMatrix = new Color[image.height()][image.width()];
-        for (int i = 0; i < image.height()-1; i++) {
-            for (int j = 0; j < image.width()-1; j++) {
-                Color color = image.obtainPixel(i, j);
-                List<Color> neighboursAndSelfValues = getNeighboursAndSelfValues(image, i, j, m);
-                int r = neighboursAndSelfValues.stream().map(Color::red).reduce(0, Integer::sum) / neighboursAndSelfValues.size();
-                int g = neighboursAndSelfValues.stream().map(Color::green).reduce(0, Integer::sum) / neighboursAndSelfValues.size();
-                int b = neighboursAndSelfValues.stream().map(Color::blue).reduce(0, Integer::sum) / neighboursAndSelfValues.size();
 
-                if(r > 200) {
-                    pixelMatrix[i][j] = new Color(r, g, b);
-                } else {
-                    pixelMatrix[i][j] = new Color(color.red(), color.green(), color.blue());
-                }
-            }
-        }
+    private int blurEffect;
+    private Predicate<Color> filterCondition;
 
-        return new Image(pixelMatrix);
+    public ConditionalBlurFilter(int blurEffect, Predicate<Color> filterCondition) {
+        this.blurEffect = blurEffect;
+        this.filterCondition = filterCondition;
     }
 
-    private List<Color> getNeighboursAndSelfValues(Image image, int i, int j, int m) {
+    public ConditionalBlurFilter(Predicate<Color> filterCondition) {
+        blurEffect = 1;
+        this.filterCondition = filterCondition;
+    }
 
-        List<Color> neighboursAndSelfValues = new ArrayList<>();
-        for (int k = i - m; k <= i + m; k++) {
-            for (int l = j - m; l <= j + m; l++) {
-                if (k >= 0 && k < image.height() && l >= 0 && l < image.width() && (k != i || l != j)) {
-                    neighboursAndSelfValues.add(image.obtainPixel(k, l));
-                }
+
+    @Override
+    public Color apply(int i, int j, Image image) {
+
+        if (!filterCondition.test(image.obtainPixel(i, j))) return image.obtainPixel(i, j);
+
+
+        int redSum = 0;
+        int greenSum = 0;
+        int blueSum = 0;
+        int totalPixels = 0;
+
+        for (int h = Math.max(i - this.blurEffect, 0); h <= Math.min(i + this.blurEffect, image.height() - 1); h++) {
+            for (int w = Math.max(j - this.blurEffect, 0); w <= Math.min(j + this.blurEffect, image.width() - 1); w++) {
+                redSum += image.obtainPixel(h, w).red();
+                greenSum += image.obtainPixel(h, w).green();
+                blueSum += image.obtainPixel(h, w).blue();
+                totalPixels++;
             }
         }
-        return neighboursAndSelfValues;
+        Color result = new Color(redSum / totalPixels, greenSum / totalPixels, blueSum / totalPixels);
+        return result;
     }
 }
