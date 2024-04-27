@@ -1,8 +1,9 @@
-package pt.ipp.isep.dei.sismd.filters.grayscale;
+package pt.ipp.isep.dei.sismd.lixo.grayscale;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
+import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
+import pt.ipp.isep.dei.sismd.filters.GrayscaleFilter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.sismd.filters;
+package pt.ipp.isep.dei.sismd.executors;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
 

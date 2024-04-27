@@ -2,8 +2,8 @@ package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
-import pt.ipp.isep.dei.sismd.filters.bright.BrighterFilter;
-import pt.ipp.isep.dei.sismd.multithreaded.MultithreadedBlurFilterExecutor;
+import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
+import pt.ipp.isep.dei.sismd.lixo.multithreaded.MultithreadedBlurFilterExecutor;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,14 +1,15 @@
-package pt.ipp.isep.dei.sismd.filters.grayscale;
+package pt.ipp.isep.dei.sismd.lixo.swirl;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
+import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
+import pt.ipp.isep.dei.sismd.filters.SwirlFilter;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 
-public class ForkJoinGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class ForkJoinSwirlFilter implements FilterExecutor, SwirlFilter {
 
     @Override
     public Image apply(Image image) {

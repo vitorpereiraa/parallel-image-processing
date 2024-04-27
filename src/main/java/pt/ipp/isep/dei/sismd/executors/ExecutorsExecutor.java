@@ -3,7 +3,6 @@ package pt.ipp.isep.dei.sismd.executors;
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.filters.Filter;
-import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
 
 import java.util.LinkedList;
 import java.util.List;

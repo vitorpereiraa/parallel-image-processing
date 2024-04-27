@@ -1,16 +1,17 @@
-package pt.ipp.isep.dei.sismd.filters.grayscale;
+package pt.ipp.isep.dei.sismd.lixo.swirl;
 
-import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.domain.Color;
-import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
+import pt.ipp.isep.dei.sismd.domain.Image;
+import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
+import pt.ipp.isep.dei.sismd.filters.SwirlFilter;
 
 import java.util.concurrent.CountDownLatch;
 
-public class MultithreadedGrayscaleFilter implements FilterExecutor, GrayscaleFilter {
+public class MultithreadedSwirlFilter implements FilterExecutor, SwirlFilter {
 
     @Override
     public Image apply(Image image) {
-        final Color[][] pixelMatrix = new Color[image.height()][image.width()];
+        Color[][] pixelMatrix = new Color[image.height()][image.width()];
         final int numberOfThreads = Runtime.getRuntime().availableProcessors();
         final CountDownLatch countDownLatch = new CountDownLatch(numberOfThreads);
 
@@ -21,8 +22,8 @@ public class MultithreadedGrayscaleFilter implements FilterExecutor, GrayscaleFi
             final Thread threadToProcessSlice = new Thread(() -> {
                 for (int x = sliceStartX; x < sliceEndX ; x++) {
                     for (int y = 0; y < image.width(); y++) {
-                        final Color grayscalePixel = apply(x,y,image);
-                        pixelMatrix[x][y] = grayscalePixel;
+                        final Color swirlPixel = apply(x,y,image);
+                        pixelMatrix[x][y] = swirlPixel ;
                     }
                 }
                 countDownLatch.countDown();

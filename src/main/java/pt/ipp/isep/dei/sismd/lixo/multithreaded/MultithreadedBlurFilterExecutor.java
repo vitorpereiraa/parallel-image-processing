@@ -1,17 +1,17 @@
-package pt.ipp.isep.dei.sismd.multithreaded;
+package pt.ipp.isep.dei.sismd.lixo.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filters.bright.BrighterFilter;
+import pt.ipp.isep.dei.sismd.lixo.BlurFilterExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultithreadedBrighterFilter extends BrighterFilter {
+public class MultithreadedBlurFilterExecutor extends BlurFilterExecutor {
+
     private final int numberOfThreads;
 
-    public MultithreadedBrighterFilter(int brightness, int numberOfThreads) {
-        super(brightness);
+    public MultithreadedBlurFilterExecutor(int numberOfThreads) {
         this.numberOfThreads = numberOfThreads;
     }
 
@@ -36,10 +36,30 @@ public class MultithreadedBrighterFilter extends BrighterFilter {
         public void run() {
             for (int i = 0; i < imageToProcess.height(); i++) {
                 for (int j = lowerWidthBound; j < higherWidthBound; j++) {
-                    sharedOutput[i][j] = bright(i, j, imageToProcess);
+                    sharedOutput[i][j] = calculateBlur(i, j, imageToProcess);
                 }
             }
         }
+    }
+
+
+    @Override
+    public Image apply(Image image) {
+        Color[][] pixelMatrix = new Color[image.height()][image.width()];
+        ThreadGroup group = new ThreadGroup("MultithreadedBlurFilter");
+        List<Thread> threads = createThreads(group, image, pixelMatrix);
+        threads.forEach(Thread::start);
+        while (!threads.isEmpty()) {
+            try {
+                threads.getFirst().join();
+                threads.removeFirst();
+            } catch (InterruptedException e) {
+                System.err.println("[WARNING] Error while applying blur...");
+                System.err.println(e);
+                System.out.println("Continuing waiting...");
+            }
+        }
+        return new Image(pixelMatrix);
     }
 
 
@@ -53,14 +73,13 @@ public class MultithreadedBrighterFilter extends BrighterFilter {
         int higher = range;
 
         for (int i = 0; i < numberOfThreads; i++) {
-            if (i==7) higher= image.width();
+            if (i==numberOfThreads-1) higher= image.width();
             result.add(new Thread(localGroup, new AlgorithmRunner(lower, higher, sharedMatrix, image)));
             lower = higher;
             higher += range;
         }
         return result;
     }
-
 
 
 }

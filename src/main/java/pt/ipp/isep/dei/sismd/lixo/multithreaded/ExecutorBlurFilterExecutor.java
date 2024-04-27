@@ -1,8 +1,8 @@
-package pt.ipp.isep.dei.sismd.multithreaded;
+package pt.ipp.isep.dei.sismd.lixo.multithreaded;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filters.BlurFilterExecutor;
+import pt.ipp.isep.dei.sismd.lixo.BlurFilterExecutor;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,8 @@
-package pt.ipp.isep.dei.sismd.filters;
+package pt.ipp.isep.dei.sismd.lixo;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
+import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
 
 public class BlurFilterExecutor implements FilterExecutor {
 

@@ -2,9 +2,9 @@ package pt.ipp.isep.dei.sismd;
 
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.ExecutorsExecutor;
-import pt.ipp.isep.dei.sismd.filters.FilterExecutor;
-import pt.ipp.isep.dei.sismd.filters.bright.BrighterFilter;
-import pt.ipp.isep.dei.sismd.multithreaded.ExecutorBlurFilterExecutor;
+import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
+import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
+import pt.ipp.isep.dei.sismd.lixo.multithreaded.ExecutorBlurFilterExecutor;
 
 import java.io.File;
 import java.util.*;
