@@ -30,7 +30,7 @@ public class BaseBenchmarkRunner {
                 .warmupIterations(3)
                 .forks(1)
                 .resultFormat(ResultFormatType.CSV)
-                .result("report/benchmark_results/"+ getSimpleFilterName(filter) + "/" + imageName + "_" + System.currentTimeMillis() + ".csv")
+                .result("report/benchmark_results/"+ getSimpleFilterName(filter) + "/" + size.name() + "/" + imageName + "_" + System.currentTimeMillis() + ".csv")
                 .build();
     }
 
@@ -43,7 +43,7 @@ public class BaseBenchmarkRunner {
                 .warmupIterations(3)
                 .forks(1)
                 .resultFormat(ResultFormatType.CSV)
-                .result("report/benchmark_results/"+ getSimpleFilterName(filter) + "/" + gc.name().toLowerCase().replace("GC", "") + "/" + System.currentTimeMillis() + ".csv")
+                .result("report/benchmark_results/"+ getSimpleFilterName(filter) + "/" + gc.name().toLowerCase().replace("gc", "") + "/" + System.currentTimeMillis() + ".csv")
                 .build();
     }
 
