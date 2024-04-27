@@ -27,7 +27,8 @@ public class BaseBenchmarkRunner {
                 .include(BaseBenchmark.class.getSimpleName())
                 .param("pathToFile", "src/main/resources/imgs/"+ size.name() + "/" + imageName + ".jpg")
                 .param("filterName", filter)
-                .forks(3)
+                .warmupIterations(3)
+                .forks(1)
                 .resultFormat(ResultFormatType.CSV)
                 .result("report/benchmark_results/"+ getSimpleFilterName(filter) + "/" + imageName + "_" + System.currentTimeMillis() + ".csv")
                 .build();
@@ -39,7 +40,8 @@ public class BaseBenchmarkRunner {
                 .param("pathToFile", "src/main/resources/imgs/"+ ImageSize.big.name() + "/4k_background.jpg")
                 .param("filterName", filter)
                 .jvmArgs("-XX:+Use" + gc.name())
-                .forks(3)
+                .warmupIterations(3)
+                .forks(1)
                 .resultFormat(ResultFormatType.CSV)
                 .result("report/benchmark_results/"+ getSimpleFilterName(filter) + "/" + gc.name().toLowerCase().replace("GC", "") + "/" + System.currentTimeMillis() + ".csv")
                 .build();
