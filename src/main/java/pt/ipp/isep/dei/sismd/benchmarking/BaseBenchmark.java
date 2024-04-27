@@ -65,11 +65,6 @@ public class BaseBenchmark {
     }
 
     @Benchmark
-    public Image forkjoin() {
-        return new ForkJoinExecutor(filter).apply(image);
-    }
-
-    @Benchmark
     public Image forkjoin_5000() {
         return new ForkJoinExecutor(filter, 5000).apply(image);
     }
