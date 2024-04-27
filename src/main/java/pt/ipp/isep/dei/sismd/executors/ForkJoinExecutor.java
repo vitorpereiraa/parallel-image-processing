@@ -18,6 +18,11 @@ public class ForkJoinExecutor implements FilterExecutor {
         this.threshold = threshold;
     }
 
+    public ForkJoinExecutor(Filter filterAlgorithm) {
+        this.filterAlgorithm = filterAlgorithm;
+        this.threshold = 100;
+    }
+
     @Override
     public Image apply(Image image) {
         Color[][] pixelMatrix = new Color[image.height()][image.width()];
