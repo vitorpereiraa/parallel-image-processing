@@ -1,0 +1,6 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
+threshold_100_000,"avgt",1,15,55.255564,3.348775,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/turtle.jpg
+threshold_10_000,"avgt",1,15,70.842280,3.872874,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/turtle.jpg
+threshold_25_000,"avgt",1,15,70.178621,4.499607,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/turtle.jpg
+threshold_50_000,"avgt",1,15,67.664358,2.109153,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/turtle.jpg
+threshold_5_000,"avgt",1,15,71.589860,4.229975,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/turtle.jpg
