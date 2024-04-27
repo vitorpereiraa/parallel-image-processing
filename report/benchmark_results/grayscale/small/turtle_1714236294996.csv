@@ -1,0 +1,14 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
+"completableFuturePerLine","avgt",1,5,2.515721,0.868147,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"completableFuturePerPixel","avgt",1,5,46.164502,2.099052,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"completableFuturePerSlice","avgt",1,5,13.532338,0.490539,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"executorsPerLine","avgt",1,5,1.487207,0.034169,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"executorsPerPixel","avgt",1,5,413.022377,3.186823,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"executorsPerSlice","avgt",1,5,1.121704,0.054827,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin","avgt",1,5,1.490629,0.012337,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_10000","avgt",1,5,1.522748,0.021787,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_100000","avgt",1,5,0.976198,0.022852,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_5000","avgt",1,5,1.521593,0.015089,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_50000","avgt",1,5,1.135161,0.019434,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"multithreaded","avgt",1,5,1.469807,0.016452,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"sequential","avgt",1,5,1.300510,0.038268,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
