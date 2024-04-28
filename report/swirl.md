@@ -93,7 +93,7 @@ By looking at the table above for the swirl filter on huge images, we can observ
 * Sequential was faster than the parallel approaches that send individual pixels to a thread pool.
 * The approaches that send individual pixels to a thread pool are bad.
 
-#### Conclusion
+#### Analysis
 
 * **Top 3 most consistent:**
     * **forkjoin_10000:** This approach consistently shows competitive performance across all image sizes (small, big, and huge). It maintains relatively stable execution times and demonstrates efficiency in workload distribution and parallel processing.
@@ -106,21 +106,76 @@ By looking at the table above for the swirl filter on huge images, we can observ
 
 ### Comparison between different garbage collectors
 
-#### SerialGC
-[serial table and analysis]
-[Compare with big image benchmark]
+The following table presents benchmarking results for different garbage collectors (SerialGC, ParallelGC, G1GC, and ZGC) across various approaches for image processing measured in milliseconds per operation/iteration (ms/op).
 
-#### ParallelGC
-[parallel table and analysis]
-[Compare with big image benchmark]
+|Benchmark                |Mode|Samples|SerialGC Score|SerialGC Score Error (99.9%)|ParallelGC Score|ParallelGC Score Error (99.9%)|G1GC Score     |G1GC Score Error (99.9%)                |ZGC Score  |ZGC Score Error (99.9%)|Unit |
+|-------------------------|----|-------|--------------|----------------------------|----------------|------------------------------|---------------|----------------------------------------|-----------|-----------------------|-----|
+|completableFuturePerLine |avgt|5      |49.729027     |0.585654                    |48.458727       |5.120198                      |45.676361      |0.934989                                |47.363028  |1.230655               |ms/op|
+|completableFuturePerPixel|avgt|5      |1761.87497    |217.418671                  |1999.413159     |794.945275                    |1467.96054     |69.990772                               |1640.613932|233.864754             |ms/op|
+|completableFuturePerSlice|avgt|5      |49.344501     |1.743271                    |47.679946       |0.045321                      |47.205198      |0.29702                                 |50.001047  |1.177301               |ms/op|
+|executorsPerLine         |avgt|5      |58.847752     |10.962439                   |47.922528       |0.887145                      |46.083452      |3.59309                                 |47.732603  |4.108634               |ms/op|
+|executorsPerPixel        |avgt|5      |8937.02586    |299.583577                  |8987.96247      |227.84813                     |8861.74583     |110.640062                              |8820.80128 |202.051534             |ms/op|
+|executorsPerSlice        |avgt|5      |39.949723     |1.721301                    |39.053135       |0.786265                      |39.593358      |0.639768                                |46.459303  |2.771782               |ms/op|
+|forkjoin_10000           |avgt|5      |41.192575     |0.262926                    |36.553203       |0.453867                      |39.900684      |0.442067                                |39.672916  |0.917929               |ms/op|
+|forkjoin_100000          |avgt|5      |42.478531     |3.128054                    |36.828155       |0.749449                      |40.807978      |0.290263                                |40.637214  |1.277561               |ms/op|
+|forkjoin_5000            |avgt|5      |42.466763     |3.305696                    |35.82708        |0.234499                      |39.714183      |0.27947                                 |39.400354  |0.41761                |ms/op|
+|forkjoin_50000           |avgt|5      |43.119594     |3.068442                    |36.658958       |0.307056                      |40.790262      |0.189843                                |40.6103    |0.641799               |ms/op|
+|multithreaded            |avgt|5      |40.142681     |1.449503                    |37.811743       |0.762121                      |41.971926      |0.397764                                |42.38104   |0.761993               |ms/op|
+|sequential               |avgt|5      |287.570738    |13.202281                   |280.54565       |3.55226                       |324.326504     |3.156532                                |314.149786 |5.124692               |ms/op|
 
-#### G1GC
-[g1 table and analysis]
-[Compare with big image benchmark]
+Looking at the score columns for each garbage collector, we can see that the lower the score, the better the performance. So, we need to find the lowest score for each benchmark across all garbage collectors.
 
-#### ZGC
-[z table and analysis]
-[Compare with big image benchmark]
+completableFuturePerLine:
+* SerialGC: 49.729027
+* ParallelGC: 48.458727
+* G1GC: 45.676361
+* ZGC: 47.363028
 
-#### Conclusion
-[Elect the best GC]
+The lowest score is achieved by G1GC with a score of 45.676361.
+ 
+completableFuturePerPixel:
+* SerialGC: 1761.87497
+* ParallelGC: 1999.413159
+* G1GC: 1467.96054
+* ZGC: 1640.613932
+
+The lowest score is achieved by G1GC with a score of 1467.96054.
+ 
+completableFuturePerSlice:
+* SerialGC: 49.344501
+* ParallelGC: 47.679946
+* G1GC: 47.205198
+* ZGC: 50.001047
+
+The lowest score is achieved by G1GC with a score of 47.205198.
+
+executorsPerLine:
+
+* SerialGC: 58.847752
+* ParallelGC: 47.922528
+* G1GC: 46.083452
+* ZGC: 47.732603
+
+The lowest score is achieved by G1GC with a score of 46.083452.
+
+executorsPerPixel:
+* SerialGC: 8937.02586
+* ParallelGC: 8987.96247
+* G1GC: 8861.74583
+* ZGC: 8820.80128
+ 
+The lowest score is achieved by G1GC with a score of 8861.74583.
+
+executorsPerSlice:
+* SerialGC: 39.949723
+* ParallelGC: 39.053135
+* G1GC: 39.593358
+* ZGC: 46.459303
+ 
+The lowest score is achieved by ParallelGC with a score of 39.053135.
+
+forkjoin_10000, forkjoin_100000, forkjoin_5000, forkjoin_50000, multithreaded, and sequential benchmarks:
+
+The scores for these benchmarks are significantly lower for ParallelGC compared to others. However, it's worth noting that G1GC and ZGC also show competitive performance in some cases.
+
+Based on the analysis, **G1GC** generally performs the best across the benchmarks provided. However, it's also important to consider the specific requirements and characteristics of the application when selecting a garbage collector.

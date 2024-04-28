@@ -112,7 +112,7 @@ By looking at the table above for the grayscale filter on huge images, we can ob
 
 * The approaches that send individual pixels to a thread pool are bad.
 
-#### Conclusion
+#### Analysis
 
 * **Top 3 most consistent:** 
 
@@ -127,17 +127,30 @@ By looking at the table above for the grayscale filter on huge images, we can ob
 * **Sequential vs. Parallel:** In all cases, the sequential approach consistently shows higher execution times compared to parallel processing approaches, highlighting the benefits of parallelization for image processing tasks.
 
 ### Comparison between different garbage collectors
-#### SerialGC
-[serial table and analysis]
-[Compare with big image benchmark]
-#### ParallelGC
-[parallel table and analysis]
-[Compare with big image benchmark]
-#### G1GC
-[g1 table and analysis]
-[Compare with big image benchmark]
-#### ZGC
-[z table and analysis]
-[Compare with big image benchmark]
-#### Conclusion
-[Elect the best GC]
+
+The following table presents benchmarking results for different garbage collectors (SerialGC, ParallelGC, G1GC, and ZGC) across various approaches for image processing measured in milliseconds per operation/iteration (ms/op).
+
+|Benchmark                |Mode|Samples|SerialGC Score|SerialGC Score Error (99.9%)|ParallelGC Score|Parallel Score Error (99.9%)|G1GC Score     |G1GC Score Error (99.9%)                |ZGC Score  |ZGC Score Error (99.9%)|Unit |
+|-------------------------|----|-------|--------------|----------------------------|----------------|----------------------------|---------------|----------------------------------------|-----------|-----------------------|-----|
+|completableFuturePerLine |avgt|5      |170.16738     |15.369149                   |17.740941       |0.352113                    |16.965467      |0.352488                                |29.890874  |1.707477               |ms/op|
+|completableFuturePerPixel|avgt|5      |1741.096825   |546.391102                  |939.426457      |573.684246                  |913.370614     |145.53076                               |1016.344319|265.13321              |ms/op|
+|completableFuturePerSlice|avgt|5      |157.986777    |45.405342                   |17.388427       |0.106535                    |16.335226      |0.146891                                |31.598553  |0.575226               |ms/op|
+|executorsPerLine         |avgt|5      |220.096692    |62.121497                   |19.71269        |1.357153                    |17.671658      |0.781633                                |23.250907  |0.587853               |ms/op|
+|executorsPerPixel        |avgt|5      |9398.65168    |126.810069                  |9241.54823      |421.617234                  |9039.14179     |86.776574                               |9030.09091 |130.845958             |ms/op|
+|executorsPerSlice        |avgt|5      |189.19363     |36.030961                   |17.734547       |8.513789                    |14.88514       |0.125666                                |20.495219  |0.418538               |ms/op|
+|forkjoin_10000           |avgt|5      |163.942459    |64.510089                   |18.333726       |0.314625                    |17.219912      |0.14072                                 |22.130946  |0.42398                |ms/op|
+|forkjoin_100000          |avgt|5      |173.612169    |24.914418                   |18.328521       |0.573699                    |17.687689      |0.143305                                |21.974032  |0.533229               |ms/op|
+|forkjoin_5000            |avgt|5      |151.196349    |73.222758                   |18.119782       |0.487108                    |16.760613      |0.072221                                |22.058897  |0.62996                |ms/op|
+|forkjoin_50000           |avgt|5      |170.548539    |15.469309                   |18.336309       |0.403462                    |17.738419      |0.89244                                 |22.048166  |0.308692               |ms/op|
+|multithreaded            |avgt|5      |192.385972    |11.246465                   |16.823534       |0.927084                    |16.311023      |0.172877                                |21.914666  |0.991874               |ms/op|
+|sequential               |avgt|5      |153.245522    |132.471748                  |34.673867       |1.109181                    |32.518282      |0.970742                                |40.13138   |4.52222                |ms/op|
+
+By looking at the table above for the grayscale filter on different garbage collectors, we can observe the following:
+
+* On average the fastest are the following(in order):
+  * G1GC (~844)
+  * ZGC (~858)
+  * ParallelGC (~864)
+  * SerialGC (~1073)
+
+* **Best Garbage Collector:** The G1GC is the best, it beats the other garbage collectors in almost all image processing implementations.

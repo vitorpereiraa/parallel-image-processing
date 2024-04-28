@@ -1,13 +1,13 @@
 "Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerLine","avgt",1,5,47.363028,1.230655,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerPixel","avgt",1,5,1640.613932,233.864754,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerSlice","avgt",1,5,50.001047,1.177301,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerLine","avgt",1,5,47.732603,4.108634,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerPixel","avgt",1,5,8820.801280,202.051534,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerSlice","avgt",1,5,46.459303,2.771782,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_10000","avgt",1,5,39.672916,0.917929,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_100000","avgt",1,5,40.637214,1.277561,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_5000","avgt",1,5,39.400354,0.417610,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_50000","avgt",1,5,40.610300,0.641799,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.multithreaded","avgt",1,5,42.381040,0.761993,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.sequential","avgt",1,5,314.149786,5.124692,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"completableFuturePerLine","avgt",1,5,47.363028,1.230655,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"completableFuturePerPixel","avgt",1,5,1640.613932,233.864754,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"completableFuturePerSlice","avgt",1,5,50.001047,1.177301,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"executorsPerLine","avgt",1,5,47.732603,4.108634,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"executorsPerPixel","avgt",1,5,8820.801280,202.051534,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"executorsPerSlice","avgt",1,5,46.459303,2.771782,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"forkjoin_10000","avgt",1,5,39.672916,0.917929,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"forkjoin_100000","avgt",1,5,40.637214,1.277561,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"forkjoin_5000","avgt",1,5,39.400354,0.417610,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"forkjoin_50000","avgt",1,5,40.610300,0.641799,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"multithreaded","avgt",1,5,42.381040,0.761993,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
+"sequential","avgt",1,5,314.149786,5.124692,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/big/4k_background.jpg
