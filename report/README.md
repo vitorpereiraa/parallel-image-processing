@@ -881,23 +881,25 @@ The Benchmarks for this filter were run on a laptop with an AMD Ryzen 5 5500U at
 
 The provided "Score" values refer to the ms it took to complete the task. Less is better.
 
+|Benchmark                |Samples|8K Image Score|8K Image Score Error (99.9%)|4K Image Score|4K Image Score Error (99.9%)|Small Image Score|Small Image Score Error (99.9%)|  Average Score  |  Average Error Score  
+|-------------------------|-------|--------------|----------------------------|--------------|----------------------------|-----------------|-------------------------------|--------------- | --------------------- |
+|completableFuturePerLine |5      |1611.539003   |412.153513                  |193.942370    |12.061974                   |13.048346        |1.292756                       | 606.958327     |  141.021876           |
+|completableFuturePerPixel|5      |12314.091060  |5181.213991                 |2139.120493   |1097.171734                 |69.819799        |8.998609                       | 4841.500057    |  2095.556501          |
+|completableFuturePerSlice|5      |1575.487100   |454.223025                  |303.106583    |57.753447                   |9.335202         |0.830492                       | 629.196668     |  170.063557           |
+|executorsPerLine         |5      |2451.159402   |574.130681                  |2850.190756   |6466.871133                 |5221.212017      |32817.130147                   | 3507.951408    |  12386.48416          |
+|executorsPerPixel        |5      |450427.257700 |2007478.225829              |52869.548220  |6748.680334                 |1747.911443      |399.425647                     |                |                       |
+|executorsPerSlice        |5      |1807.123369   |941.684040                  |272.155506    |49.966611                   |12.903756        |15.369485                      | 697.448068     |  335.186116           |
+|forkjoin_10000           |5      |1841.709693   |316.272053                  |257.465277    |111.597045                  |10.056931        |1.239905                       | 703.834148     |  143.473680           |
+|forkjoin_100000          |5      |1704.971948   |323.139641                  |253.418230    |98.290633                   |8.590150         |0.370331                       | 655.62208      |  140.957574           |
+|forkjoin_5000            |5      |1820.995391   |472.628128                  |241.112594    |66.021354                   |10.707396        |0.498365                       | 690.527426     |  179.502872           |
+|forkjoin_50000           |5      |1698.900632   |625.309903                  |253.383146    |497.929352                  |9.424607         |1.290791                       | 653.804203     |  374.022195           |
+|multithreaded            |5      |1586.460310   |460.773835                  |168.019900    |15.621496                   |29.959753        |124.050057                     | 594.552666     |  200.702352           |
+|sequential               |5      |2415.338696   |244.358959                  |293.654879    |132.082910                  |12.386831        |2.275467                       | 907.837910     |  126.842731           |
 
- |  Benchmark                   |  Samples  |  8K Image Score  |  4K Image Score  |  Small Image Score  |  Average Score  |  Average Error Score  | 
- | ---------------------------- | --------- | ---------------- | ---------------- | ------------------- | --------------- | --------------------- | 
- |  completableFuturePerLine   |  5        |  1611.539003     |  193.942370      |  13.048346          |  606.509573    |  142.169414           | 
- |  completableFuturePerPixel  |  5        |  12314.091060    |  2139.120493     |  69.819799          |  4841.343117   |  2096.467908          | 
- |  completableFuturePerSlice  |  5        |  1575.487100     |  303.106583      |  9.335202           |  629.976295    |  174.585624           | 
- |  executorsPerLine           |  5        |  2451.159402     |  2850.190756     |  5221.212017        |  3507.187725   |  7941.547987          | 
- |  executorsPerPixel          |  5        |  450427.257700   |  52869.548220    |  1747.911443        |  168348.572121 |  669542.443604        | 
- |  executorsPerSlice          |  5        |  1807.123369     |  272.155506      |  12.903756          |  697.394543    |  1021.005037          | 
- |  forkjoin_10000             |  5        |  1841.709693     |  257.465277      |  10.056931          |  702.077634    |  127.557211           | 
- |  forkjoin_100000            |  5        |  1704.971948     |  253.418230      |  8.590150           |  655.660776    |  143.105542           | 
- |  forkjoin_5000              |  5        |  1820.995391     |  241.112594      |  10.707396          |  690.271127    |  179.782929           | 
- |  forkjoin_50000             |  5        |  1698.900632     |  253.383146      |  9.424607           |  653.902128    |  229.179682           | 
- |  multithreaded              |  5        |  1586.460310     |  168.019900      |  29.959753          |  928.813987    |  171.657756           | 
- |  sequential                 |  5        |  2415.338696     |  293.654879      |  12.386831          |  907.460135    |  125.282669           | 
 
-Taking into account the results of blur filter one would expect the results to be quite similar and indeed they are. However, Completable Future Per Line was this time the best performing approach followed closely by most forkjoins.
+Taking into account the results of blur filter one would expect the results to be quite similar however they're not. For this filter the multithread approach had the best performance.
+Completable Future Per Line was this time the best performing approach of the completable futures and it was followed closely by most forkjoins.
+The only standout approach from this table is the Completable Future Per Pixel which had abysmal performance compared to the rest.
 
 #### Conditional Blur Filter - Garbage Collector Benchmarks
 
@@ -924,7 +926,7 @@ Similar to the last table, the results here are quite different to the normal bl
 #### Conditional Blur Filter - Conclusions
 
 Conditional Blur had different results when compared to the normal Blur. This difference might be due to the additional calculation of the condition which alters how many pixels get affected by the filter.
-Forkjoins proved much more effective with this filter than they were with the normal Blur. Also, most garbage collectors had similar performance and G1 even managed to get ahead.
+Multithread and Forkjoins proved much more effective with this filter than they were with the normal Blur. Also, most garbage collectors had similar performance and G1 even managed to get ahead.
 
 
 ### Conclusion
