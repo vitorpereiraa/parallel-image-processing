@@ -833,6 +833,11 @@ The provided "Score" values refer to the ms it took to complete the task. Less i
 
 In this table we can see that the Z garbage collector offered the best results, with an average score across all approaches of 1825, followed quite closely by the G1.
 
+#### Blur Filter - Conclusions
+
+Analysing the results of the Blur filter we can see that a mix of Completable Future Per Slice with the Z garbage collector would have the best results, however this doesn't mean it's always the best approach as will be proven with the Conditional Blur filter, which on paper should have pretty similar results.
+There were also other approaches with good performance such as multithread and forkjoin_10000 and the only standout from the garbage collectors is parallel which was quite slower.
+
 ### Conditional Blur Filter
 
 As previously mentioned the Conditional Blur filter is merely the Blue filter with an added condition.
@@ -892,7 +897,7 @@ The provided "Score" values refer to the ms it took to complete the task. Less i
  |  multithreaded              |  5        |  1586.460310     |  168.019900      |  29.959753          |  928.813987    |  171.657756           | 
  |  sequential                 |  5        |  2415.338696     |  293.654879      |  12.386831          |  907.460135    |  125.282669           | 
 
-Taking into account the results of blur filter one would expect the results to be quite similar, however they're not.
+Taking into account the results of blur filter one would expect the results to be quite similar and indeed they are. However, Completable Future Per Line was this time the best performing approach followed closely by most forkjoins.
 
 #### Conditional Blur Filter - Garbage Collector Benchmarks
 
@@ -915,6 +920,11 @@ The provided "Score" values refer to the ms it took to complete the task. Less i
  |  Average                  |         |  4489,83      |  527.03             |  4600.46        |  528.87                |  4277.32     |  633.48                |  4373.06           |  643.15               |  |  | 
 
 Similar to the last table, the results here are quite different to the normal blur. The G1 garbage collector actually performed the best. However it must be noted that all gcs had pretty similar performances.
+
+#### Conditional Blur Filter - Conclusions
+
+Conditional Blur had different results when compared to the normal Blur. This difference might be due to the additional calculation of the condition which alters how many pixels get affected by the filter.
+Forkjoins proved much more effective with this filter than they were with the normal Blur. Also, most garbage collectors had similar performance and G1 even managed to get ahead.
 
 
 ### Conclusion
