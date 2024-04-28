@@ -158,8 +158,6 @@ public Image apply(Image image) {
 
 To benchmark the performance of each filter, the Java library Java Microbenchmarking Harness was used. This library allows us to easily build and run benchmarks
 
-## Filters
-
 ## Brighter Filter
 
 The goal of the brighter filter is to increment the brightness of each pixel by a specific ammount.
@@ -709,7 +707,7 @@ public class GlassFilter implements Filter {
 |multithreaded            |5      |1741.859044 |229.454573         |1708.515700    |9.167169                     |1829.304097                |19.511226                  |1643.781434             |74.198657                |
 |sequential               |5      |230.278223  |6.478090           |203.068864     |11.000674                    |207.602722                 |2.369742                   |203.815801              |1.730318                 |
 
-### Blur Filter
+## Blur Filter
 
 The blur filter, as the name implies, intends to blur an image making it seem more pixelated. It works by selecting a pixel and then calculating the rgb values of the neighbouring pixels in a matrix, an editable value refered to as blurEffect, as well as the pixel's own values. It then calculates the average for each colour, red, blue and green and applies it to the selected pixel.
 The value of m determines how blurred an image gets.
