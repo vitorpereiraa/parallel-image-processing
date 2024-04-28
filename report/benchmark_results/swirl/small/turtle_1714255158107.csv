@@ -1,0 +1,13 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerLine","avgt",1,5,9.146927,0.346656,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerPixel","avgt",1,5,63.684018,0.630354,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerSlice","avgt",1,5,13.260514,1.949869,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerLine","avgt",1,5,3.108516,0.186301,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerPixel","avgt",1,5,391.856028,8.578614,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerSlice","avgt",1,5,2.762362,0.079430,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_10000","avgt",1,5,2.717382,0.025265,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_100000","avgt",1,5,4.403993,0.110388,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_5000","avgt",1,5,2.633100,0.040564,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_50000","avgt",1,5,3.053130,0.013449,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.multithreaded","avgt",1,5,2.555219,0.038904,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.sequential","avgt",1,5,13.882100,1.127824,"ms/op",pt.ipp.isep.dei.sismd.filters.SwirlFilter,src/main/resources/imgs/small/turtle.jpg

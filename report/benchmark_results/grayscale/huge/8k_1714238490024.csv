@@ -1,14 +1,14 @@
 "Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerLine","avgt",1,5,415.012453,58.960006,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerPixel","avgt",1,5,8874.820190,9670.856707,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerSlice","avgt",1,5,412.597236,80.336891,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerLine","avgt",1,5,482.036471,122.995171,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerPixel","avgt",1,5,51262.848960,3134.592508,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerSlice","avgt",1,5,405.285257,73.070969,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin","avgt",1,5,432.122034,66.906523,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_10000","avgt",1,5,421.290538,163.424736,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_100000","avgt",1,5,408.061937,112.059678,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_5000","avgt",1,5,420.774504,178.480952,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_50000","avgt",1,5,430.284962,32.409750,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.multithreaded","avgt",1,5,406.604066,44.584017,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.sequential","avgt",1,5,591.368303,101.073009,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"completableFuturePerLine","avgt",1,5,415.012453,58.960006,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"completableFuturePerPixel","avgt",1,5,8874.820190,9670.856707,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"completableFuturePerSlice","avgt",1,5,412.597236,80.336891,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"executorsPerLine","avgt",1,5,482.036471,122.995171,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"executorsPerPixel","avgt",1,5,51262.848960,3134.592508,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"executorsPerSlice","avgt",1,5,405.285257,73.070969,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"forkjoin","avgt",1,5,432.122034,66.906523,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"forkjoin_10000","avgt",1,5,421.290538,163.424736,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"forkjoin_100000","avgt",1,5,408.061937,112.059678,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"forkjoin_5000","avgt",1,5,420.774504,178.480952,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"forkjoin_50000","avgt",1,5,430.284962,32.409750,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"multithreaded","avgt",1,5,406.604066,44.584017,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
+"sequential","avgt",1,5,591.368303,101.073009,"ms/op",GrayscaleFilter,src/main/resources/imgs/huge/8k.jpg
