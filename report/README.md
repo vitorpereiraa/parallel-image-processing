@@ -33,24 +33,124 @@ public interface FilterExecutor {
 #### Sequential
 
 ```java
-public class SequentialExecutor implements FilterExecutor {
-    
+@Override
+public Image apply(Image image) {
+    Color[][] pixelMatrix = new Color[image.height()][image.width()];
+    for (int i = 0; i < image.height(); i++) {
+        for (int j = 0; j < image.width(); j++) {
+            pixelMatrix[i][j] = filter.apply(i, j,image);
+        }
+    }
+    return new Image(pixelMatrix);
+}
+```
+
+#### Multithreaded
+
+```java
+private class AlgorithmRunner implements Runnable {
+
+    private final int lowerWidthBound;
+    private final int higherWidthBound;
+    private final Color[][] sharedOutput;
+    private final Image imageToProcess;
     private final Filter filter;
 
-    public SequentialExecutor(Filter filter) {
+    public AlgorithmRunner(int lowerWidthBound, int higherWidthBound,
+                           Color[][] sharedOutput, Image imageToProcess, Filter filter) {
+        this.lowerWidthBound = lowerWidthBound;
+        this.higherWidthBound = higherWidthBound;
+        this.sharedOutput = sharedOutput;
+        this.imageToProcess = imageToProcess;
         this.filter = filter;
     }
 
     @Override
-    public Image apply(Image image) {
-        Color[][] pixelMatrix = new Color[image.height()][image.width()];
-        for (int i = 0; i < image.height(); i++) {
-            for (int j = 0; j < image.width(); j++) {
-                pixelMatrix[i][j] = filter.apply(i, j,image);
+    public void run() {
+        for (int i = 0; i < imageToProcess.height(); i++) {
+            for (int j = lowerWidthBound; j < higherWidthBound; j++) {
+                sharedOutput[i][j] = this.filter.apply(i, j,imageToProcess);
             }
         }
-        return new Image(pixelMatrix);
     }
+}
+```
+
+#### Executors
+
+```java
+@Override
+public Image apply(Image image) {
+    Color[][] pixelMatrix = new Color[image.height()][image.width()];
+    final int numberOfThreads = Runtime.getRuntime().availableProcessors();
+    final int sliceHeight = image.height() / numberOfThreads;
+    for (int i = 0; i < numberOfThreads; i++) {
+        final int sliceStartX = i * sliceHeight;
+        final int sliceEndX = (i == numberOfThreads - 1) ? image.height() : (i + 1) * sliceHeight;
+        threadPool.submit(() -> {
+            for (int x = sliceStartX; x < sliceEndX; x++) {
+                for (int y = 0; y < image.width(); y++) {
+                    final Color filteredPixel = filter.apply(x, y, image);
+                    pixelMatrix[x][y] = filteredPixel;
+                }
+            }
+        });
+    }
+    threadPool.shutdown();
+    try {
+        if (!threadPool.awaitTermination(100, TimeUnit.SECONDS)){
+            System.out.println("Timeout occurred.");
+        }
+    } catch (InterruptedException ignored) { }
+
+    return new Image(pixelMatrix);
+}
+```
+
+#### ForkJoin
+
+```java
+@Override
+protected void compute() {
+    if ((endRow - startRow) * (endCol - startCol) <= threshold) {
+        for (int i = startRow; i < endRow; i++) {
+            for (int j = startCol; j < endCol; j++) {
+                sharedOutput[i][j] = filter.apply(i, j, imageToProcess);
+            }
+        }
+    } else {
+        int midRow = (startRow + endRow) / 2;
+        int midCol = (startCol + endCol) / 2;
+
+        invokeAll(
+                new FilterTask(startRow, midRow, startCol, midCol, sharedOutput, imageToProcess, filter),
+                new FilterTask(startRow, midRow, midCol, endCol, sharedOutput, imageToProcess, filter),
+                new FilterTask(midRow, endRow, startCol, midCol, sharedOutput, imageToProcess, filter),
+                new FilterTask(midRow, endRow, midCol, endCol, sharedOutput, imageToProcess, filter)
+        );
+    }
+}
+```
+
+#### CompletableFuture
+
+```java
+@Override
+public Image apply(Image image) {
+    final Color[][] pixelMatrix = new Color[image.height()][image.width()];
+    for (int x = 0; x < image.height(); x++) {
+        final int finalX = x;
+        CompletableFuture.runAsync(() -> {
+            for (int y = 0; y < image.width(); y++) {
+                final Color filteredPixel = filter.apply(finalX, y, image);
+                pixelMatrix[finalX][y] = filteredPixel;
+            }
+        });
+    }
+    if(!ForkJoinPool.commonPool().awaitQuiescence(100, TimeUnit.SECONDS)){
+        System.out.println("Timeout occurred.");
+    }
+    return new Image(pixelMatrix);
 }
 ```
 
