@@ -359,7 +359,8 @@ Comparison between different garbage collectors
 
 #### Conclusion
 
-Having all that in mind, plus the other intrem conclusions, the best choice of garbage collection is the G1GC.
+Having all that in mind, plus the other intrem conclusions, the best choice for this filter is the combination
+of the Thread Pool Per Slice with G1 Garbage Collector.
 
 ## Grayscale
 
