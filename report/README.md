@@ -246,6 +246,154 @@ Comparison between different garbage collectors
 
 Having all that in mind, plus the other intrem conclusions, the best choice of garbage collection is the G1GC.
 
+### Blur Filter
+
+The blur filter, as the name implies, intends to blur an image making it seem more pixelated. It works by selecting a pixel and then calculating the rgb values of the neighbouring pixels in a matrix, an editable value refered to as blurEffect, as well as the pixel's own values. It then calculates the average for each colour, red, blue and green and applies it to the selected pixel.
+The value of m determines how blurred an image gets.
+The following excerpt of code is how we implemented said filter:
+
+```java
+@Override
+    public Color apply(int i, int j, Image image) {
+
+        int redSum = 0;
+        int greenSum = 0;
+        int blueSum = 0;
+        int totalPixels = 0;
+
+        for (int h = Math.max(i - this.blurEffect, 0); h <= Math.min(i + this.blurEffect, image.height() - 1); h++) {
+            for (int w = Math.max(j - this.blurEffect, 0); w <= Math.min(j + this.blurEffect, image.width() - 1); w++) {
+                redSum += image.obtainPixel(h, w).red();
+                greenSum += image.obtainPixel(h, w).green();
+                blueSum += image.obtainPixel(h, w).blue();
+                totalPixels++;
+            }
+        }
+        Color result = new Color(redSum / totalPixels, greenSum / totalPixels, blueSum / totalPixels);
+        return result;
+    }
+```
+
+This code is also the code for the Conditional Blur filter which will be shown later but as the name implies it applies a condition. The Blur filter actually works by extending the Conditional Blur's class and calling it while telling it to ignore the condition.
+
+```java
+ private static Predicate<Color> DEFAULT_FILTER = color -> true;
+
+    public BlurFilter(int blurEffect) {
+        super(blurEffect, DEFAULT_FILTER);
+    }
+```
+
+### Blur Filter - Benchmarks
+
+#### Blur Filter - Image Benchmarks
+
+|Benchmark                |Samples|8K Image Score|8K Image Score Error (99,9%)|4K Image Score|4K Image Score Error (99,9%)|Small Image Score|Small Image Score Error (99,9%)|
+|-------------------------|-------|--------------|----------------------------|--------------|----------------------------|-----------------|-------------------------------|
+|completableFuturePerLine |5      |891,698155    |27,667546                   |944,911073    |5502,497906                 |23,265753        |13,857176                      |
+|completableFuturePerPixel|5      |17042,388620  |4075,894558                 |2363,805124   |361,923847                  |110,308427       |42,351098                      |
+|completableFuturePerSlice|5      |835,991927    |91,759006                   |407,228052    |466,649880                  |17,370076        |0,780784                       |
+|executorsPerLine         |5      |988,020779    |178,986482                  |942,827294    |735,223745                  |1836,006152      |15165,242275                   |
+|executorsPerPixel        |5      |71773,583080  |3651,481009                 |46247,933560  |6701,852832                 |1940,857841      |559,869029                     |
+|executorsPerSlice        |5      |11722,692743  |93428,551815                |415,955087    |215,664683                  |18,698375        |3,369849                       |
+|forkjoin_10000           |5      |876,806387    |14,622401                   |499,882159    |354,099326                  |74,813898        |250,697315                     |
+|forkjoin_100000          |5      |11581,467601  |92144,939663                |381,620457    |237,273388                  |17,778565        |10,658670                      |
+|forkjoin_5000            |5      |905,685195    |25,935980                   |2410,480916   |14831,208706                |378,415628       |3051,362929                    |
+|forkjoin_50000           |5      |9457,409808   |73893,022821                |419,352637    |215,782762                  |16,650165        |3,261003                       |
+|multithreaded            |5      |850,831590    |39,678039                   |424,136501    |214,376161                  |19,689908        |3,037855                       |
+|sequential               |5      |1513,724917   |127,574961                  |890,857674    |573,226000                  |24,930139        |1,727232                       |
+
+#### Blur Filter - Garbage Collector Benchmarks
+
+|Benchmark                 |Samples| Z - Score       |Z - Score Error (99.9%)|Serial - Score | Serial - Score Error (99.9%)| G1 - Score | G1 - Score Error (99.9%) | Parallel - Score | Parallel - Score Error (99.9%)|
+|--------------------------|-------|------------|-------------------|----------------|-----------------------------|----------------------------|----------------------------|----------------------------|----------------------------|
+|completableFuturePerLine |5      |91.390712   |8.434105           |276.282207     |90.390854                   |99.237032                  |17.811772                  |96.203992             |3.017256                |
+|completableFuturePerPixel|5      |3485.980927 |386.929886         |3046.644065    |262.697562                  |12027.306953               |78253.133617               |80527.142989           |671148.657515           |
+|completableFuturePerSlice|5      |83.709259   |7.385267           |235.048728     |67.690336                   |95.160201                  |29.352605                  |72.483810             |4.666519                |
+|executorsPerLine         |5      |103.727619  |5.761015           |364.368561     |20.385486                   |74.627376                  |3.733465                   |99.083471             |8.444283                |
+|executorsPerPixel        |5      |16939.151740|131.638306         |17261.491580   |1391.814057                 |17096.274840               |374.350806                 |19659.542000          |793.124938              |
+|executorsPerSlice        |5      |80.271153   |7.278234           |21203.279886   |180016.924810               |109.072979                 |33.055141                  |1058.983183           |8473.459233             |
+|forkjoin_10000           |5      |91.176156   |29.391555          |274.548904     |113.371156                  |69.096063                  |1.625255                   |74.379143             |8.282180                |
+|forkjoin_100000          |5      |84.258458   |5.878435           |261.596580     |53.369022                   |101.426279                 |38.367968                  |64.073404             |2.061718                |
+|forkjoin_5000            |5      |506.533966  |3601.558980        |268.501755     |57.961378                   |704.929186                 |5061.964849                |63.975520             |1.235512                |
+|forkjoin_50000           |5      |83.849786   |1.678981           |229.283981     |43.294732                   |104.423954                 |48.053304                  |65.885238             |13.344728               |
+|multithreaded            |5      |84.892308   |2.993998           |260.407426     |21.748407                   |110.875927                 |62.217671                  |62.544214             |3.880859                |
+|sequential               |5      |281.965988  |56.791909          |424.134690     |60.044632                   |310.765044                 |50.807122                  |243.150515            |7.529379                |
+
+### Conditional Blur Filter
+
+As previously mentioned the Conditional Blur filter is merely the Blue filter with an added condition.
+The following excerpt of code is how we implemented said filter:
+
+```java
+@Override
+    public Color apply(int i, int j, Image image) {
+
+        if (!filterCondition.test(image.obtainPixel(i, j))) return image.obtainPixel(i, j);
+
+        int redSum = 0;
+        int greenSum = 0;
+        int blueSum = 0;
+        int totalPixels = 0;
+
+        for (int h = Math.max(i - this.blurEffect, 0); h <= Math.min(i + this.blurEffect, image.height() - 1); h++) {
+            for (int w = Math.max(j - this.blurEffect, 0); w <= Math.min(j + this.blurEffect, image.width() - 1); w++) {
+                redSum += image.obtainPixel(h, w).red();
+                greenSum += image.obtainPixel(h, w).green();
+                blueSum += image.obtainPixel(h, w).blue();
+                totalPixels++;
+            }
+        }
+        Color result = new Color(redSum / totalPixels, greenSum / totalPixels, blueSum / totalPixels);
+        return result;
+    }
+```
+
+We opted to add a condition in which the blurred was only applied to pixels where the red value was bigger than the blue and green value.
+
+```java
+    this.filterCondition = color -> color.red() > color.blue() && color.red() > color.green();
+```
+
+### Conditional Blur Filter - Benchmarks
+
+#### Conditional Blur Filter - Image Benchmarks
+
+| Benchmark                  | Samples | 8K Image Score | 8K Image Score Error (99,9%) | 4K Image Score | 4K Image Score Error (99,9%) | Small Image Score | Small Image Score Error (99,9%) |
+|----------------------------|---------|----------------|------------------------------|----------------|------------------------------|-------------------|---------------------------------|
+| completableFuturePerLine  | 5       | 1611.539003    | 412.153513                   | 193.942370     | 12.061974                    | 13.048346         | 1.292756                        |
+| completableFuturePerPixel | 5       | 12314.091060   | 5181.213991                  | 2139.120493    | 1097.171734                  | 69.819799         | 8.998609                        |
+| completableFuturePerSlice | 5       | 1575.487100    | 454.223025                   | 303.106583     | 57.753447                    | 9.335202          | 0.830492                        |
+| executorsPerLine          | 5       | 2451.159402    | 574.130681                   | 2850.190756    | 6466.871133                  | 5221.212017       | 32817.130147                    |
+| executorsPerPixel         | 5       | 450427.257700  | 2007478.225829               | 52869.548220   | 6748.680334                  | 1747.911443       | 399.425647                      |
+| executorsPerSlice         | 5       | 1807.123369    | 941.684040                   | 272.155506     | 49.966611                    | 12.903756         | 15.369485                       |
+| forkjoin_10000            | 5       | 1841.709693    | 316.272053                   | 257.465277     | 111.597045                   | 10.056931         | 1.239905                        |
+| forkjoin_100000           | 5       | 1704.971948    | 323.139641                   | 253.418230     | 98.290633                    | 8.590150          | 0.370331                        |
+| forkjoin_5000             | 5       | 1820.995391    | 472.628128                   | 241.112594     | 66.021354                    | 10.707396         | 0.498365                        |
+| forkjoin_50000            | 5       | 1698.900632    | 625.309903                   | 253.383146     | 497.929352                   | 9.424607          | 1.290791                        |
+| multithreaded             | 5       | 1586.460310    | 460.773835                   | 168.019900     | 15.621496                    | 29.959753         | 124.050057                      |
+| sequential                | 5       | 2415.338696    | 244.358959                   | 293.654879     | 132.082910                   | 12.386831         | 2.275467                        |
+
+#### Conditional Blur Filter - Garbage Collector Benchmarks
+
+Got it! Here's the data organized in the requested format:
+
+| Benchmark                 | Samples | Z - Score   | Z - Score Error (99.9%) | Serial - Score | Serial - Score Error (99.9%) | G1 - Score | G1 - Score Error (99.9%) | Parallel - Score | Parallel - Score Error (99.9%) |
+|--------------------------|---------|-------------|--------------------------|----------------|------------------------------|------------|---------------------------|-------------------|--------------------------------|
+| completableFuturePerLine | 5       | 91.390712   | 8.434105                 | 276.282207    | 90.390854                   | 99.237032  | 17.811772                 | 96.203992        | 3.017256                       |
+| completableFuturePerPixel| 5       | 3485.980927 | 386.929886               | 3046.644065   | 262.697562                  | 12027.306953| 78253.133617               | 80527.142989     | 671148.657515                  |
+| completableFuturePerSlice| 5       | 83.709259   | 7.385267                 | 235.048728    | 67.690336                   | 95.160201  | 29.352605                 | 72.483810        | 4.666519                       |
+| executorsPerLine         | 5       | 103.727619  | 5.761015                 | 364.368561    | 20.385486                   | 74.627376  | 3.733465                  | 99.083471        | 8.444283                       |
+| executorsPerPixel        | 5       | 16939.151740| 131.638306               | 17261.491580  | 1391.814057                 | 17096.274840| 374.350806                | 19659.542000     | 793.124938                     |
+| executorsPerSlice        | 5       | 80.271153   | 7.278234                 | 21203.279886  | 180016.924810               | 109.072979 | 33.055141                 | 1058.983183      | 8473.459233                    |
+| forkjoin_10000           | 5       | 91.176156   | 29.391555                | 274.548904    | 113.371156                  | 69.096063  | 1.625255                  | 74.379143        | 8.282180                       |
+| forkjoin_100000          | 5       | 84.258458   | 5.878435                 | 261.596580    | 53.369022                   | 101.426279 | 38.367968                 | 64.073404        | 2.061718                       |
+| forkjoin_5000            | 5       | 506.533966  | 3601.558980               | 268.501755    | 57.961378                   | 704.929186 | 5061.964849               | 63.975520        | 1.235512                       |
+| forkjoin_50000           | 5       | 83.849786   | 1.678981                 | 229.283981    | 43.294732                   | 104.423954 | 48.053304                 | 65.885238        | 13.344728                      |
+| multithreaded            | 5       | 84.892308   | 2.993998                 | 260.407426    | 21.748407                   | 110.875927 | 62.217671                 | 62.544214        | 3.880859                       |
+| sequential               | 5       | 281.965988  | 56.791909                | 424.134690    | 60.044632                   | 310.765044 | 50.807122                 | 243.150515       | 7.529379                       |
+
+
 ### Conclusion
 
 The best combination of GC and Strategy, to be the most versitile and most eficient is the Thread Pool approach with
