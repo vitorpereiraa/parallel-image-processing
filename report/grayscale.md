@@ -2,6 +2,23 @@
 
 The grayscale filter converts a color image into a grayscale image by averaging the red, green, and blue components of each pixel and replacing them with the computed average.
 
+The filter was implemented as follows:
+
+```java
+@Override
+public Color apply(int i, int j, Image image) {
+  Color pixel = image.obtainPixel(i, j);
+  int r = pixel.red();
+  int g = pixel.green();
+  int b = pixel.blue();
+
+  int sum = r + g + b;
+  int avg = sum / 3;
+
+  return new Color(avg, avg, avg);
+}
+```
+
 ### Comparison between different image sizes
 
 In this section, the different image processing approaches will be compared with different image sizes. 
@@ -101,7 +118,7 @@ By looking at the table above for the grayscale filter on huge images, we can ob
 
     * **Executors Per Slice:** This approach exhibits relatively low variance in its scores across different image sizes. The difference in execution times between small, big, and large images is comparatively minimal, indicating consistent performance regardless of image size.
 
-    * **Multithreaded:** While multithreaded may not be the fastest approach for all image sizes, it demonstrates consistency in its performance across different image sizes. The variance in execution times is relatively low, indicating stable performance across varying computational workloads.
+    * **Multithreaded:** While multithreaded may not be the fastest approach for all image sizes, it demonstrates consistency in its performance across different image sizes. The variance in execution times is relatively low, indicating stable performance across varying workloads.
 
     * **CompletableFuture Per Line:** This approach presented the best performance for huge images and the third-best performance for big images.  
 

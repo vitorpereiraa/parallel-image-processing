@@ -2,6 +2,18 @@
 
 The swirl filter applies a distortion effect to an image by rotating its pixels around a central point. This central point serves as the center of rotation for the swirling effect. Each pixel's new position is calculated based on its distance from the central point and a rotation angle determined by a formula.
 
+```java
+@Override
+public Color apply(int i, int j, Image image) {
+    var currentCoordinate = new ImageCoordinate(i, j);
+    var centerCoordinate = getCenterCoordinate(image.height(), image.width());
+    var swirlCoordinate = getSwirlCoordinateOf(currentCoordinate, centerCoordinate);
+    int validX = Math.max(0, Math.min(image.height() - 1, swirlCoordinate.x()));
+    int validY = Math.max(0, Math.min(image.width() - 1, swirlCoordinate.y()));
+    return image.obtainPixel(validX, validY);
+}
+```
+
 ### Comparison between different image sizes
 
 In this section, the different image processing approaches will be compared with different image sizes.
@@ -23,6 +35,14 @@ In this section, the different image processing approaches will be compared with
 |completableFuturePerPixel|avgt|5      |63.684018 |0.630354           |ms/op|
 |executorsPerPixel        |avgt|5      |391.856028|8.578614           |ms/op|
 
+By looking at the table above for the swirl filter on small images, we can observe the following:
+
+* Multithreaded was the fastest.
+* ForkJoin with 5000 pixels threshold was the second fastest.
+* ForkJoin with 10000 pixels threshold was the third fastest.
+* Sequential was faster than the parallel approaches that send individual pixels to a thread pool.
+* The approaches that send individual pixels to a thread pool are bad.
+ 
 #### Big
 
 |Benchmark                |Mode|Samples|Score     |Score Error (99.9%)|Unit |
@@ -39,6 +59,14 @@ In this section, the different image processing approaches will be compared with
 |sequential               |avgt|5      |329.504866|25.637186          |ms/op|
 |completableFuturePerPixel|avgt|5      |1421.079129|31.125093          |ms/op|
 |executorsPerPixel        |avgt|5      |8914.503520|128.136955         |ms/op|
+
+By looking at the table above for the swirl filter on big images, we can observe the following:
+
+* Executors per slice was the fastest.
+* ForkJoin with 10000 pixels threshold was the second fastest.
+* ForkJoin with 5000 pixels threshold was the third fastest.
+* Sequential was faster than the parallel approaches that send individual pixels to a thread pool.
+* The approaches that send individual pixels to a thread pool are bad.
 
 #### Huge
 
@@ -57,7 +85,24 @@ In this section, the different image processing approaches will be compared with
 |completableFuturePerPixel|avgt|5      |7561.759520|301.488221         |ms/op|
 |executorsPerPixel        |avgt|5      |39017.342740|507.487970         |ms/op|
 
+By looking at the table above for the swirl filter on huge images, we can observe the following:
+
+* ForkJoin with 10000 pixels threshold was the fastest.
+* ForkJoin with 50000 pixels threshold was the second fastest.
+* Completable future per line was the third fastest.
+* Sequential was faster than the parallel approaches that send individual pixels to a thread pool.
+* The approaches that send individual pixels to a thread pool are bad.
+
 #### Conclusion
+
+* **Top 3 most consistent:**
+    * **forkjoin_10000:** This approach consistently shows competitive performance across all image sizes (small, big, and huge). It maintains relatively stable execution times and demonstrates efficiency in workload distribution and parallel processing.
+    * **forkjoin_5000:** Similar to forkjoin_10000, this approach also exhibits stable performance across different image sizes, indicating its robustness and effectiveness in handling the swirl filter.
+    * **forkjoin_100000:** * While forkjoin_100000 may not be the fastest approach for all image sizes, it demonstrates consistency in its performance across different image sizes.
+ 
+* **Best approach:** In this case, **forkjoin_10000** demonstrated the best overall performance across all image sizes.
+
+* **Sequential vs. Parallel:** In all cases, the sequential approach consistently shows higher execution times compared to parallel processing approaches, highlighting the benefits of parallelization for image processing tasks.
 
 ### Comparison between different garbage collectors
 
