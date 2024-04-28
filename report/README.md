@@ -3,7 +3,7 @@
 
 This project explores various parallel processing approaches for image analysis, being sequential-based, multithreaded-based, executor-based, forkJoinPool-based and finally a completableFutures-based implementation. In this document, we'll discuss each approach, provide code snippets, and present benchmark results to compare their performance across different image sizes and garbage collectors. In cases where an approach could have other alternatives for implementations, these will also be discussed along with their pros and cons and why we eventually choose the approach we did.
 
-## Development Approach and Benchmarking Methodology
+## Development Approach, Executors and Benchmarking Methodology
 
 In this chapter, we outline the methodology used for benchmarking and the approach taken in the development of the solutions for parallel image processing.
 
@@ -20,12 +20,37 @@ public interface Filter {
 }
 ```
 
-
 With the usage of an interface that establishes the minimal behaviour of a filter, we can then implement the FilterExecutor which are the different solutions (Sequential, Multithreaded, ThreadPool-based) for the problem. These executors should, given an image, return back a new image, which has been processed.
 
 ```java
 public interface FilterExecutor {
     Image apply(Image image);
+}
+```
+
+### Executors
+
+#### Sequential
+
+```java
+public class SequentialExecutor implements FilterExecutor {
+    
+    private final Filter filter;
+
+    public SequentialExecutor(Filter filter) {
+        this.filter = filter;
+    }
+
+    @Override
+    public Image apply(Image image) {
+        Color[][] pixelMatrix = new Color[image.height()][image.width()];
+        for (int i = 0; i < image.height(); i++) {
+            for (int j = 0; j < image.width(); j++) {
+                pixelMatrix[i][j] = filter.apply(i, j,image);
+            }
+        }
+        return new Image(pixelMatrix);
+    }
 }
 ```
 
