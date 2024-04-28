@@ -138,7 +138,7 @@ protected void compute() {
 }
 ```
 
-The fork join approach consists in dividing the image in 4 quarters recursively until the image is small enough to be processed (is less or equals then the threshold). The threshold is the number of pixels of an image. 
+The fork join approach consists in dividing the image in 4 quarters recursively until the image is small enough to be processed (is less or equals then the threshold). The threshold is the number of pixels of an image.
 
 #### CompletableFuture
 
@@ -166,7 +166,7 @@ The completable future approach consists in dividing the image in a certain way 
 
 ### Benchmarking Methodology
 
-To benchmark the performance of each filter, the Java library Java Microbenchmarking Harness (jmh) was used. This library allows us to easily build and run benchmarks
+To evaluate the performance of each filter, we utilized the Java Microbenchmarking Harness library. This tool enabled us to create and execute benchmarks effortlessly. Each benchmark included warm-up iterations followed by actual iterations that contributed to the final result. We configured the score type to measure the average time in milliseconds for each operation (filter) to run. Additionally, we formatted the output into CSV for easy analysis.
 
 ```java
 @State(Scope.Benchmark)
@@ -479,11 +479,11 @@ By looking at the table above for the grayscale filter on huge images, we can ob
 
 * **Top 3 most consistent:**
 
-    * **Executors Per Slice:** This approach exhibits relatively low variance in its scores across different image sizes. The difference in execution times between small, big, and large images is comparatively minimal, indicating consistent performance regardless of image size.
+  * **Executors Per Slice:** This approach exhibits relatively low variance in its scores across different image sizes. The difference in execution times between small, big, and large images is comparatively minimal, indicating consistent performance regardless of image size.
 
-    * **Multithreaded:** While multithreaded may not be the fastest approach for all image sizes, it demonstrates consistency in its performance across different image sizes. The variance in execution times is relatively low, indicating stable performance across varying workloads.
+  * **Multithreaded:** While multithreaded may not be the fastest approach for all image sizes, it demonstrates consistency in its performance across different image sizes. The variance in execution times is relatively low, indicating stable performance across varying workloads.
 
-    * **CompletableFuture Per Line:** This approach presented the best performance for huge images and the third-best performance for big images.
+  * **CompletableFuture Per Line:** This approach presented the best performance for huge images and the third-best performance for big images.
 
 * **Best approach:** In this case, **executorsPerSlice** demonstrated the best overall performance across all image sizes.
 
@@ -511,10 +511,10 @@ The following table presents benchmarking results for different garbage collecto
 By looking at the table above for the grayscale filter on different garbage collectors, we can observe the following:
 
 * On average the fastest are the following(in order):
-    * G1GC (~844)
-    * ZGC (~858)
-    * ParallelGC (~864)
-    * SerialGC (~1073)
+  * G1GC (~844)
+  * ZGC (~858)
+  * ParallelGC (~864)
+  * SerialGC (~1073)
 
 * **Best Garbage Collector:** The G1GC is the best, it beats the other garbage collectors in almost all image processing implementations.
 
@@ -616,9 +616,9 @@ By looking at the table above for the swirl filter on huge images, we can observ
 #### Analysis
 
 * **Top 3 most consistent:**
-    * **forkjoin_10000:** This approach consistently shows competitive performance across all image sizes (small, big, and huge). It maintains relatively stable execution times and demonstrates efficiency in workload distribution and parallel processing.
-    * **forkjoin_5000:** Similar to forkjoin_10000, this approach also exhibits stable performance across different image sizes, indicating its robustness and effectiveness in handling the swirl filter.
-    * **forkjoin_100000:** * While forkjoin_100000 may not be the fastest approach for all image sizes, it demonstrates consistency in its performance across different image sizes.
+  * **forkjoin_10000:** This approach consistently shows competitive performance across all image sizes (small, big, and huge). It maintains relatively stable execution times and demonstrates efficiency in workload distribution and parallel processing.
+  * **forkjoin_5000:** Similar to forkjoin_10000, this approach also exhibits stable performance across different image sizes, indicating its robustness and effectiveness in handling the swirl filter.
+  * **forkjoin_100000:** * While forkjoin_100000 may not be the fastest approach for all image sizes, it demonstrates consistency in its performance across different image sizes.
 
 * **Best approach:** In this case, **forkjoin_10000** demonstrated the best overall performance across all image sizes.
 
@@ -646,6 +646,7 @@ The following table presents benchmarking results for different garbage collecto
 Looking at the score columns for each garbage collector, we can see that the lower the score, the better the performance. So, we need to find the lowest score for each benchmark across all garbage collectors.
 
 completableFuturePerLine:
+
 * SerialGC: 49.729027
 * ParallelGC: 48.458727
 * G1GC: 45.676361
@@ -654,6 +655,7 @@ completableFuturePerLine:
 The lowest score is achieved by G1GC with a score of 45.676361.
 
 completableFuturePerPixel:
+
 * SerialGC: 1761.87497
 * ParallelGC: 1999.413159
 * G1GC: 1467.96054
@@ -662,6 +664,7 @@ completableFuturePerPixel:
 The lowest score is achieved by G1GC with a score of 1467.96054.
 
 completableFuturePerSlice:
+
 * SerialGC: 49.344501
 * ParallelGC: 47.679946
 * G1GC: 47.205198
@@ -679,6 +682,7 @@ executorsPerLine:
 The lowest score is achieved by G1GC with a score of 46.083452.
 
 executorsPerPixel:
+
 * SerialGC: 8937.02586
 * ParallelGC: 8987.96247
 * G1GC: 8861.74583
@@ -687,6 +691,7 @@ executorsPerPixel:
 The lowest score is achieved by G1GC with a score of 8861.74583.
 
 executorsPerSlice:
+
 * SerialGC: 39.949723
 * ParallelGC: 39.053135
 * G1GC: 39.593358
@@ -699,7 +704,7 @@ forkjoin_10000, forkjoin_100000, forkjoin_5000, forkjoin_50000, multithreaded, a
 The scores for these benchmarks are significantly lower for ParallelGC compared to others. However, it's worth noting that G1GC and ZGC also show competitive performance in some cases.
 
 Based on the analysis, **G1GC** generally performs the best across the benchmarks provided. However, it's also important to consider the specific requirements and characteristics of the application when selecting a garbage collector.
- 
+
 ## Glass Filter
 
 GlassFilter works by, for a given pixel with coordinates _i_,_j_, generating a random offset for both the x and y axis and retrieving the color values of the pixel with the coordinates i + offsetX, j + offsetY, in the initial iamge.
@@ -737,7 +742,10 @@ public class GlassFilter implements Filter {
 
 #### Glass Filter - Image Benchmarks
 
-| Benchmark                 | Samples | 8k Image Score | 8k Image Score Error (99.9%) | 4k Image Score | 4k Image Score Error (99.9%) | Small Image Score | Small Image Score Error (99.9%) |
+The table bellow presents the benchmark results for each of the different approaches when processing images with different resolutions, them being 8k (Approx. 7300x4900px), 4k (Approx. 3840x2160 px) and small (Approx. 700x500 px).
+The score in the table is the time in milliseconds in which the process was finished.
+
+| Benchmark                 | Samples | 8k Image Score (ms) | 8k Image Score Error (99.9%) | 4k Image Score (ms) | 4k Image Score Error (99.9%) | Small Image Score (ms) | Small Image Score Error (99.9%) |
 |---------------------------|---------|----------------|-------------------------------|----------------|-------------------------------|-------------------|---------------------------------|
 | completableFuturePerLine | 5       | 7739.261780    | 1252.001380                   | 1887.064360    | 92.516731                     | 79.936844        | 3.523413                        |
 | completableFuturePerPixel| 5       | 7092.389150    | 2246.690649                   | 1208.736787   | 85.090632                     | 57.747872        | 9.410386                        |
@@ -751,6 +759,10 @@ public class GlassFilter implements Filter {
 | forkjoin_50000           | 5       | 7084.575920    | 129.444045                    | 1614.438634   | 20.988487                     | 77.514772        | 0.295224                        |
 | multithreaded            | 5       | 8012.118840    | 346.554118                    | 1828.682093   | 12.498584                     | 66.593442        | 2.309548                        |
 | sequential               | 5       | 928.900671     | 10.886830                     | 207.360871    | 2.318310                      | 9.080359         | 0.176076                        |
+
+According to the results obtained, the best approach to process an image with the Glass filter would be the sequential approach.
+These results are counter-intuitive and don't align with the expected results, as the computer performing these operations has multiple cores and when the workload is split evenly by the multiple cores, the time to finish the process should diminish. Taking this into account, it is likely that something disturbed the benchmark results for the Glass Filter.
+The expected results would be for the multithread and threadpool based approaches to be the fastest, specially when increasing the size of the image.
 
 #### Glass Filter - Garbage Collector Benchmarks
 
@@ -768,6 +780,9 @@ public class GlassFilter implements Filter {
 |forkjoin_50000           |5      |1814.683049 |377.929352         |1756.662853    |85.996278                    |1816.207823                |9.813743                   |1639.250266             |7.609206                 |
 |multithreaded            |5      |1741.859044 |229.454573         |1708.515700    |9.167169                     |1829.304097                |19.511226                  |1643.781434             |74.198657                |
 |sequential               |5      |230.278223  |6.478090           |203.068864     |11.000674                    |207.602722                 |2.369742                   |203.815801              |1.730318                 |
+
+Taking a look at the results in the comparison of garbage collectors, we can see the that best garbage collector for the sequential approach is the Serial Garbage Collector, which makes sense since it is the one which is best suited for single processor machines and can't take advantage of multiprocessor hardware.
+The best garbage collectors for the multithreaded and threadpool-based approaches are the Z Garbage Collector and G1 Garbage Collector, having very similar results across the table.
 
 ## Blur Filter
 
@@ -915,7 +930,6 @@ Got it! Here's the data organized in the requested format:
 | forkjoin_50000           | 5       | 83.849786   | 1.678981                 | 229.283981    | 43.294732                   | 104.423954 | 48.053304                 | 65.885238        | 13.344728                      |
 | multithreaded            | 5       | 84.892308   | 2.993998                 | 260.407426    | 21.748407                   | 110.875927 | 62.217671                 | 62.544214        | 3.880859                       |
 | sequential               | 5       | 281.965988  | 56.791909                | 424.134690    | 60.044632                   | 310.765044 | 50.807122                 | 243.150515       | 7.529379                       |
-
 
 ### Conclusion
 
