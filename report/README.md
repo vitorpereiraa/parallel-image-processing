@@ -45,6 +45,8 @@ public Image apply(Image image) {
 }
 ```
 
+Simple sequential approach that iterates through every pixel and applied the filter.
+
 #### Multithreaded
 
 ```java
@@ -107,6 +109,8 @@ public Image apply(Image image) {
 }
 ```
 
+The executors approach consists in dividing the image in a certain way (slices, lines, pixel) and submitting it to the thread pool.
+
 #### ForkJoin
 
 ```java
@@ -132,6 +136,8 @@ protected void compute() {
 }
 ```
 
+The fork join approach consists in dividing the image in 4 quarters recursively until the image is small enough to be processed (is less or equals then the threshold). The threshold is the number of pixels of an image. 
+
 #### CompletableFuture
 
 ```java
@@ -153,6 +159,8 @@ public Image apply(Image image) {
     return new Image(pixelMatrix);
 }
 ```
+
+The completable future approach consists in dividing the image in a certain way (slices, lines, pixel) and submitting it to the ForkJoin common pool.
 
 ### Benchmarking Methodology
 
