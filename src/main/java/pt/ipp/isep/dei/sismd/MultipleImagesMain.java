@@ -17,12 +17,12 @@ public class MultipleImagesMain {
     private static final int BRIGHTNESS = 128;
     private static final int GLASS_DISTANCE = 20;
     private static final int BLUR_STRENGHT = 15;
-    private static final int SWIRL_STRENGHT = 10;//%
+    private static final int SWIRL_STRENGHT = -2;//%
     private static final Predicate<Color> BLUR_CONDITION;
 
 
     static {
-        BLUR_CONDITION = color -> color.blue() > 200 && color.blue() > color.red() + color.green();
+        BLUR_CONDITION = color -> color.blue() > 10 && color.blue() > color.red() + color.green();
     }
 
     private record ImageNamePair(String name, Image image) {
@@ -90,7 +90,7 @@ public class MultipleImagesMain {
     }
 
     private static void applyGlassFilter(List<ImageNamePair> images) {
-        apply(images, new ForkJoinExecutor(new GlassFilter(BRIGHTNESS)), "Glass Filter", "glass");
+        apply(images, new ForkJoinExecutor(new GlassFilter(GLASS_DISTANCE)), "Glass Filter", "glass");
     }
 
     private static void applySwirlFilter(List<ImageNamePair> images) {
@@ -119,7 +119,7 @@ public class MultipleImagesMain {
         List<ImageNamePair> processedImages = result;
         long duration = (endTime - startTime);  // Time in nanoseconds
         double seconds = (double) duration / 1_000_000_000.0;
-        System.out.printf("%s in %.3f\n", filterName, seconds);
+        System.out.printf("%s in %.3fs\n", filterName, seconds);
         File outputDir = new File("./out/" + dirCode);
         outputDir.mkdirs();
         persistImages(processedImages, dirCode);

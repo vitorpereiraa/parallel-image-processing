@@ -17,7 +17,7 @@ public class SingleImageMain {
     private static final int GLASS_DISTANCE = 100;
     private static final int BLUR_STRENGTH = 5;
     private static final Predicate<Color> BLUR_CONDITIONAL;
-    private static final int SWIRL_INTENSITY = 1;//%
+    private static final int SWIRL_INTENSITY = -10;//%
 
     static {
 
