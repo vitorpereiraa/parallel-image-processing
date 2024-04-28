@@ -1,0 +1,13 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerLine","avgt",1,5,1947.268120,85.200309,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerPixel","avgt",1,5,1154.837030,196.249010,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerSlice","avgt",1,5,1684.753519,108.847426,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerLine","avgt",1,5,1813.086767,371.532981,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerPixel","avgt",1,5,16166.209360,257.395410,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerSlice","avgt",1,5,1880.102050,50.278560,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_10000","avgt",1,5,1601.757220,19.406987,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_100000","avgt",1,5,1669.562443,25.645194,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_5000","avgt",1,5,1700.239840,5.737070,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_50000","avgt",1,5,1691.520163,70.074044,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.multithreaded","avgt",1,5,1832.812090,40.756977,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.sequential","avgt",1,5,295.064569,22.238625,"ms/op",pt.ipp.isep.dei.sismd.filters.GlassFilter,src/main/resources/imgs/big/4k_background.jpg

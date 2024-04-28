@@ -9,7 +9,8 @@ public class BenchmarkRunner extends BaseBenchmarkRunner {
 //        runBaseBenchmark(BrighterFilter.class.getName(), true);
 //        runBaseBenchmark(GrayscaleFilter.class.getName(), true);
 //        runBaseBenchmark(SwirlFilter.class.getName(), true);
-        runBaseBenchmark(ConditionalBlurFilter.class.getName(), true);
+//        runBaseBenchmark(ConditionalBlurFilter.class.getName(), true);
 //        runBaseBenchmark(BlurFilter.class.getName(), true);
+        runBaseBenchmark(GlassFilter.class.getName(), true);
     }
 }

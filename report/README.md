@@ -1,7 +1,7 @@
 
 # Parallel Digital Image Processing and Analysis
 
-This project explores various parallel processing approaches for image analysis, including sequential, multithreaded, and executor-based implementations. In this document, we'll discuss each approach, provide code snippets, and present benchmark results to compare their performance across different image sizes.
+This project explores various parallel processing approaches for image analysis, being sequential-based, multithreaded-based, executor-based, forkJoinPool-based and finally a completableFutures-based implementation. In this document, we'll discuss each approach, provide code snippets, and present benchmark results to compare their performance across different image sizes. In cases where an approach could have other alternatives for implementations, these will also be discussed along with their pros and cons and why we eventually choose the approach we did.
 
 ## Sequential Implementation
 
@@ -27,6 +27,8 @@ This project explores various parallel processing approaches for image analysis,
 ### Considered Alternatives
 
 ## ForkJoinPool-Based Implementation
+
+
 
 ### Code Example
 [Insert code snippet here]
