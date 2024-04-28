@@ -1,25 +1,27 @@
 package pt.ipp.isep.dei.sismd;
 
+import pt.ipp.isep.dei.sismd.domain.Color;
+import pt.ipp.isep.dei.sismd.domain.Image;
+import pt.ipp.isep.dei.sismd.executors.*;
+import pt.ipp.isep.dei.sismd.filters.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
+import java.util.function.Predicate;
 
-import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
-import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
-import pt.ipp.isep.dei.sismd.filters.GlassFilter;
-@Deprecated
 public class SingleImageMain {
 
     private static final int BRIGHTNESS = 128;
-    private static final int DISTANCE = 20;
+    private static final int GLASS_DISTANCE = 100;
+    private static final int BLUR_STRENGTH = 1;
+    private static final Predicate<Color> BLUR_CONDITIONAL;
+
+    static {
+
+        BLUR_CONDITIONAL = color -> color.red() > 125 && color.red() > color.green() && color.red() > color.blue();
+    }
 
     public static void main(String[] args) throws IOException {
 
@@ -78,15 +80,40 @@ public class SingleImageMain {
             }
         } while (num <= 0);
 
+
+        Filter filter = switch (num) {
+            case 1 -> new BrighterFilter(BRIGHTNESS);
+            case 3 -> new SwirlFilter();
+            case 4 -> new GlassFilter(GLASS_DISTANCE);
+            case 5 -> new BlurFilter(BRIGHTNESS);
+            case 6 -> new ConditionalBlurFilter(BLUR_STRENGTH, BLUR_CONDITIONAL);
+            default -> new GrayscaleFilter();
+        };
+
+        System.out.println("Executor options: ");
+        System.out.println("1 - Sequential");
+        System.out.println("2 - Multithreaded");
+        System.out.println("3 - Thread Pool");
+        System.out.println("4 - Fork Join");
+        System.out.println("5 - Completable Futures");
+
+        num = -1;
+
+        do {
+            num = readFileKey(input);
+            if (num <= 0 || num > 5) {
+                System.out.println("Invalid option!");
+                num = -1;
+            }
+        } while (num <= 0);
+
         long startTime = System.nanoTime();
         Image transformedImage = switch (num) {
-            case 1 -> applyBrighterFilter(image);
-            case 2 -> applyGrayScaleFilter(image);
-            case 3 -> applySwirlFilter(image);
-            case 4 -> applyGlassFilter(image);
-            case 5 -> applyBlurFilter(image);
-            case 6 -> applyConditionalBlurFilter(image);
-            default -> null;
+            case 1 -> apply(image, new SequentialExecutor(filter));
+            case 2 -> apply(image, new MultithreadedExecutor(filter));
+            case 4 -> apply(image, new ForkJoinExecutor(filter));
+            case 5 -> apply(image, new CompletableFutureExecutorPerSlice(filter));
+            default -> apply(image, new ExecutorsExecutorPerSlice(filter));
         };
 
         long endTime = System.nanoTime();
@@ -102,31 +129,8 @@ public class SingleImageMain {
         System.out.println("Saved transformed image in: " + outputFile.getAbsolutePath());
     }
 
-    private static Image applyConditionalBlurFilter(Image image) {
-        return null;
-    }
-
-    private static Image applyBlurFilter(Image image) {
-        System.out.println("Applying Blur Filter...");
-        return null;
-    }
-
-    private static Image applyGlassFilter(Image image) {
-        System.out.println("Applying Glass Filter with "+ DISTANCE + "of maximum pixel distance...");
-        return new SequentialExecutor(new GlassFilter(DISTANCE)).apply(image);
-    }
-
-    private static Image applySwirlFilter(Image image) {
-        return null;
-    }
-
-    private static Image applyGrayScaleFilter(Image image) {
-        return null;
-    }
-
-    private static Image applyBrighterFilter(Image image) {
-        System.out.println("Applying Brightness Filter with " + BRIGHTNESS + " of brightness...");
-        return new SequentialExecutor(new BrighterFilter(BRIGHTNESS)).apply(image);
+    private static Image apply(Image image, FilterExecutor executor) {
+        return executor.apply(image);
     }
 
     private static int readFileKey(Scanner input) {

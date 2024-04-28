@@ -37,6 +37,7 @@ public class ConditionalBlurFilter implements Filter {
 
         for (int h = Math.max(i - this.blurEffect, 0); h <= Math.min(i + this.blurEffect, image.height() - 1); h++) {
             for (int w = Math.max(j - this.blurEffect, 0); w <= Math.min(j + this.blurEffect, image.width() - 1); w++) {
+                //System.out.println("I: " + h + ", J: " + w);
                 redSum += image.obtainPixel(h, w).red();
                 greenSum += image.obtainPixel(h, w).green();
                 blueSum += image.obtainPixel(h, w).blue();
