@@ -78,6 +78,8 @@ private class AlgorithmRunner implements Runnable {
 }
 ```
 
+The multithreaded approach consists in creating threads according to the number of available processors, dividing the image equally for each thread and create, run and join the threads.
+
 #### Executors
 
 ```java
