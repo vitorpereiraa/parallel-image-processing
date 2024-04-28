@@ -17,6 +17,7 @@ public class MultipleImagesMain {
     private static final int BRIGHTNESS = 128;
     private static final int GLASS_DISTANCE = 20;
     private static final int BLUR_STRENGHT = 15;
+    private static final int SWIRL_STRENGHT = 10;//%
     private static final Predicate<Color> BLUR_CONDITION;
 
 
@@ -93,7 +94,7 @@ public class MultipleImagesMain {
     }
 
     private static void applySwirlFilter(List<ImageNamePair> images) {
-        apply(images, new ForkJoinExecutor(new SwirlFilter()), "Swirl Filter", "swirl");
+        apply(images, new ForkJoinExecutor(new SwirlFilter(SWIRL_STRENGHT)), "Swirl Filter", "swirl");
     }
 
     private static void applyGrayScaleFilter(List<ImageNamePair> images) {
