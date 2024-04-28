@@ -1,0 +1,13 @@
+Benchmark                                                                       (filterName)                         (pathToFile)  Mode  Cnt      Score      Error  Units
+BaseBenchmark.completableFuturePerLine   pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    280,264 ±   79,594  ms/op
+BaseBenchmark.completableFuturePerPixel  pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5   2336,667 ±  449,300  ms/op
+BaseBenchmark.completableFuturePerSlice  pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    296,166 ±   39,666  ms/op
+BaseBenchmark.executorsPerLine           pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    350,976 ±   37,485  ms/op
+BaseBenchmark.executorsPerPixel          pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5  53538,931 ± 5903,026  ms/op
+BaseBenchmark.executorsPerSlice          pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    302,136 ±  109,182  ms/op
+BaseBenchmark.forkjoin_10000             pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    295,095 ±   95,797  ms/op
+BaseBenchmark.forkjoin_100000            pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    303,175 ±   34,212  ms/op
+BaseBenchmark.forkjoin_5000              pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    265,869 ±  235,663  ms/op
+BaseBenchmark.forkjoin_50000             pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    202,572 ±  291,116  ms/op
+BaseBenchmark.multithreaded              pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    312,727 ±   66,381  ms/op
+BaseBenchmark.sequential                 pt.ipp.isep.dei.sismd.filters.ConditionalBlurFilter  src/main/resources/imgs/huge/8k.jpg  avgt    5    910,045 ±   40,211  ms/op

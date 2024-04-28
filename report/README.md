@@ -59,6 +59,9 @@ public interface FilterExecutor {
 }
 ```
 
+
+
+
 ### Benchmarking Methodology
 
 ## Filters
@@ -102,6 +105,155 @@ As previously explained. the GlassFilter works by, given pixel with coordinates 
 |forkjoin_50000           |5      |1814.683049 |377.929352         |1756.662853    |85.996278                    |1816.207823                |9.813743                   |1639.250266             |7.609206                 |
 |multithreaded            |5      |1741.859044 |229.454573         |1708.515700    |9.167169                     |1829.304097                |19.511226                  |1643.781434             |74.198657                |
 |sequential               |5      |230.278223  |6.478090           |203.068864     |11.000674                    |207.602722                 |2.369742                   |203.815801              |1.730318                 |
+
+
+## Brighter Filter
+
+The goal of the brighter filter is to increment the brightness of each pixel by a specific ammount.
+To calculate the brightness of each pixel, a mask must be used to combine the saturation of each color on each pixel,
+calculting the average of the saturation, being that the brightness of said pixel.
+To increment the brightness of any pixel, is just incrementing the value of each color by a specific ammount.
+That said, the amount increase must be equal in all three colors, otherwise a hue shift is present, instead of a brightness,
+culminating in the code exercerpt bellow.
+
+```java
+
+@Override
+public Color apply(int i, int j, Image image) {
+    Color color = image.obtainPixel(i, j);
+    return new Color(Math.min(color.red() + brightness, MAX_HUE_VALUE),
+            Math.min(color.green() + brightness, MAX_HUE_VALUE),
+            Math.min(color.blue() + brightness, MAX_HUE_VALUE));
+}
+```
+
+Moreover, it is important to understand that the implementation of the filter alone does not garantee the fastest
+execution of said filter; there are many factors that influence the executions, increasing (or decreasing) the overall
+velocity of the implementation.
+
+As a result, a carfull and exaustive metric collection was performed to understand which factors influence positivelly
+our implementations and which are detrements to our overall goal.
+Thus, the metrics were divided using:
+* Four categories of images to determine velocity scalability;
+* Four garbage collectors to view how Java GCs may influence the overall performance;
+* Five execution methods to see which implementation on each JGC is the best approach.
+
+To make conclusions on the [extracted metrics](./benchmark_results/brighter/Brighter-Results.xlsx), Excel was used to generate useful charts that
+increase the compreenshion of the results.
+
+### Image Size
+
+Since with increasing images size in the industry, it is relevant to analyze how diferent images size may
+influence the performance of all or results.
+
+![Image Size Influence](./imgs/brighter/brighter_isi.png)
+
+With the increment of image size, it is inevitable that the time of processing and filter application increases, however,
+it is important to understand that the time increases exponentially.
+
+Furthermore, it is important to normalize the data to properly scale and measure aproaches.
+
+
+#### Small (Approx. 700x500 px)
+
+![Small Image Results](./imgs/brighter/brighter_sir.png)
+
+![Small Image Results Normalized](./imgs/brighter/brighter_sirn.png)
+
+As expected, since the ammount of work in small images is relatively small, there is not a huge desparity in startegies
+efficiency. Nevertheless, it is important to point out that two strategies come out as incredibly attrocious in terms of efficiency,
+necessitating to excluded them from certain alnalysis (Thread Pool per Line and Completable Futures per pixel ).
+
+
+#### Big (Approx. 3840x2160 px)
+
+![Big Image Results](./imgs/brighter/brighter_bir.png)
+
+![Big Image Results Normalized](./imgs/brighter/brighter_birn.png)
+
+Differently from the [small image sizes](#small-approx-700x500-px), the results from
+this size of images favour thread pool approaches, having the Thread Pool Per Slice method as the best methodology
+for this filter.
+
+#### Huge (Approx. 7300x4900 px)
+
+![Huge Image Results](./imgs/brighter/brighter_hir.png)
+
+![Huge Image Results Normalized](./imgs/brighter/brighter_hirn.png)
+
+No different results can be interpreted from this data comparing it to the [results obtained with big images](#big-approx-3840x2160-px)
+
+#### Conclusion
+
+It is suprising that the Fork Join and Completable Futures approaches be worse than the
+Thread Pool based, however, certain factors may explain this discrepancy, maybe for certain image sizes,
+the memory that needs allocation may be a bigger detriment to the execution versus the benefits those aproches bring.
+Other possible factor may well be the garbage collectors that may be more consistent with the thread pool aproach vs the others,
+making it possible to have a combination of a garbage collector with fork join / completable futures that may indeed be
+a better approach, but this topic will be better explored in [Garbage Collectors](#garbage-collectors) section.
+
+### Strategies
+
+#### Sequential vs Multithreaded (Simple)
+
+![Sequential vs Multithreaded Results](./imgs/brighter/brighter_mtvssq.png)
+
+
+#### Thread Pool
+
+![Thread Pool Data Size Influence](./imgs/brighter/brighter_tpdsi.png)
+
+
+#### Fork Join
+
+![Fork Join Threshold Size Influence](./imgs/brighter/brighter_fjtsi.png)
+
+#### Completable Futures
+
+![Completable Futures Data Size Influence](./imgs/brighter/brighter_cfdsi.png)
+
+#### Conclusion
+
+In conclusion, the hipotesis raised in the previous section were wrong. The thread pool approach is indeed the best aproach
+and the most versitile for the Brighter Filter.
+
+
+### Garbage Collectors
+
+![Garbage Collector Performance](./imgs/brighter/brighter_gcp.png)
+
+Comparison between different garbage collectors
+#### SerialGC
+![SerialGC Results](./imgs/brighter/brighter_sgcr.png)
+
+![SerialGC Results Normalized](./imgs/brighter/brighter_sgcrn.png)
+#### ParallelGC
+
+![ParralelGC Results](./imgs/brighter/brighter_pgcr.png)
+
+![ParralelGC Results Normalized](./imgs/brighter/brighter_pgcrn.png)
+
+#### G1GC
+![G1GC Results](./imgs/brighter/brighter_g1gcr.png)
+
+![G1GC Results Normalized](./imgs/brighter/brighter_g1gcrn.png)
+#### ZGC
+![ZGC Results](./imgs/brighter/brighter_zgcr.png)
+
+![ZGC Results Normalized](./imgs/brighter/brighter_zgcrn.png)
+
+#### Conclusion
+
+Having all that in mind, plus the other intrem conclusions, the best choice of garbage collection is the G1GC.
+
+
+### Conclusion
+
+The best combination of GC and Strategy, to be the most versitile and most eficient is the Thread Pool approach with
+the G1 Garbage Collector.
+
+
+
 
 <!-- ## Conclusion
 [Write your conclusion here, summarizing findings and insights gained from the project.] -->

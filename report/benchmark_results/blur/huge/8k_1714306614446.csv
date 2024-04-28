@@ -1,0 +1,13 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99,9%)","Unit","Param: filterName","Param: pathToFile"
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerLine","avgt",1,5,"393,066508","19,956655","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerPixel","avgt",1,5,"2654,281164","570,019302","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerSlice","avgt",1,5,"422,662910","29,132711","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerLine","avgt",1,5,"474,174675","98,597789","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerPixel","avgt",1,5,"52915,846560","4290,281991","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerSlice","avgt",1,5,"407,499047","48,160340","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_10000","avgt",1,5,"419,448533","42,083177","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_100000","avgt",1,5,"428,566832","80,655166","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_5000","avgt",1,5,"446,628784","77,324547","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_50000","avgt",1,5,"410,330200","45,795078","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.multithreaded","avgt",1,5,"419,897137","53,569933","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
+"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.sequential","avgt",1,5,"1206,578789","104,608746","ms/op",pt.ipp.isep.dei.sismd.filters.BlurFilter,src/main/resources/imgs/huge/8k.jpg
