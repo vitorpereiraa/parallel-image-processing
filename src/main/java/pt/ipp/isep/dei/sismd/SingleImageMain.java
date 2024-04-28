@@ -15,8 +15,9 @@ public class SingleImageMain {
 
     private static final int BRIGHTNESS = 128;
     private static final int GLASS_DISTANCE = 100;
-    private static final int BLUR_STRENGTH = 1;
+    private static final int BLUR_STRENGTH = 5;
     private static final Predicate<Color> BLUR_CONDITIONAL;
+    private static final int SWIRL_INTENSITY = 1;//%
 
     static {
 
@@ -83,9 +84,9 @@ public class SingleImageMain {
 
         Filter filter = switch (num) {
             case 1 -> new BrighterFilter(BRIGHTNESS);
-            case 3 -> new SwirlFilter();
+            case 3 -> new SwirlFilter(SWIRL_INTENSITY);
             case 4 -> new GlassFilter(GLASS_DISTANCE);
-            case 5 -> new BlurFilter(BRIGHTNESS);
+            case 5 -> new BlurFilter(BLUR_STRENGTH);
             case 6 -> new ConditionalBlurFilter(BLUR_STRENGTH, BLUR_CONDITIONAL);
             default -> new GrayscaleFilter();
         };

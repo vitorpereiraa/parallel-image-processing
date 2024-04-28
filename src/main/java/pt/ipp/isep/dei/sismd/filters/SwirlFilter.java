@@ -2,11 +2,22 @@ package pt.ipp.isep.dei.sismd.filters;
 
 import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.filters.Filter;
 
 public class SwirlFilter implements Filter {
 
-    private record ImageCoordinate(int x, int y){}
+    private int intensity; //in %
+
+    public SwirlFilter(int intensity) {
+        this.intensity = intensity;
+    }
+
+    public SwirlFilter() {
+        this.intensity = 100;
+    }
+
+
+    private record ImageCoordinate(int x, int y) {
+    }
 
     @Override
     public Color apply(int i, int j, Image image) {
@@ -18,17 +29,17 @@ public class SwirlFilter implements Filter {
         return image.obtainPixel(validX, validY);
     }
 
-    private ImageCoordinate getCenterCoordinate(int height, int width){
-        int xCenterCoordinate = (height - 1)/2;
-        int yCenterCoordinate = (width - 1)/2;
+    private ImageCoordinate getCenterCoordinate(int height, int width) {
+        int xCenterCoordinate = (height - 1) / 2;
+        int yCenterCoordinate = (width - 1) / 2;
         return new ImageCoordinate(xCenterCoordinate, yCenterCoordinate);
     }
 
     private ImageCoordinate getSwirlCoordinateOf(ImageCoordinate coordinate, ImageCoordinate centerCoordinate) {
         int dx = coordinate.x() - centerCoordinate.x;
         int dy = coordinate.y() - centerCoordinate.y;
-        double distance = Math.sqrt((dx*dx) + (dy*dy));
-        double theta = (Math.PI/256) * distance;
+        double distance = Math.sqrt((dx * dx) + (dy * dy));
+        double theta = (Math.PI / 256) * distance * (intensity/100.0);
         int xDash = (int) (dx * Math.cos(theta) - dy * Math.sin(theta) + centerCoordinate.x());
         int yDash = (int) (dx * Math.sin(theta) + dy * Math.cos(theta) + centerCoordinate.y());
         return new ImageCoordinate(xDash, yDash);

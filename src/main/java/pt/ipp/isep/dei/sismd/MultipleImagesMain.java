@@ -1,23 +1,28 @@
 package pt.ipp.isep.dei.sismd;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-
+import pt.ipp.isep.dei.sismd.domain.Color;
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.ExecutorsExecutorPerLine;
 import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
-import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
-import pt.ipp.isep.dei.sismd.filters.GlassFilter;
+import pt.ipp.isep.dei.sismd.executors.ForkJoinExecutor;
+import pt.ipp.isep.dei.sismd.filters.*;
+
+import java.io.File;
+import java.util.*;
+import java.util.function.Predicate;
+
 @Deprecated
 public class MultipleImagesMain {
 
     private static final int BRIGHTNESS = 128;
-    private static final int DISTANCE = 20;
+    private static final int GLASS_DISTANCE = 20;
+    private static final int BLUR_STRENGHT = 15;
+    private static final Predicate<Color> BLUR_CONDITION;
+
+
+    static {
+        BLUR_CONDITION = color -> color.blue() > 200 && color.blue() > color.red() + color.green();
+    }
 
     private record ImageNamePair(String name, Image image) {
     }
@@ -57,27 +62,13 @@ public class MultipleImagesMain {
         System.out.println("Conditional Blur Filter");
         System.out.println("=========================================================================================================");
 
-        long startTime = System.nanoTime();
-        List<ImageNamePair> processedImages = applyBrighterFilter(images);
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);  // Time in nanoseconds
-        double seconds = (double) duration / 1_000_000_000.0;
-        System.out.printf("Brighter Filter Applied in %.3f\n", seconds);
-        File outputDir = new File("./out/brighter");
-        outputDir.mkdirs();
-        persistImages(processedImages, "brighter");
 
-
-        startTime = System.nanoTime();
-        processedImages = applyBlurFilter(images);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);  // Time in nanoseconds
-        seconds = (double) duration / 1_000_000_000.0;
-        System.out.printf("Blur Filter Applied in %.3f\n", seconds);
-        outputDir = new File("./out/blur");
-        outputDir.mkdirs();
-        persistImages(processedImages, "blur");
-
+        applyBrighterFilter(images);
+        applyGrayScaleFilter(images);
+        applySwirlFilter(images);
+        applyGlassFilter(images);
+        applyBlurFilter(images);
+        applyConditionalBlurFilter(images);
     }
 
 
@@ -89,37 +80,48 @@ public class MultipleImagesMain {
     }
 
 
-    private static List<ImageNamePair> applyConditionalBlurFilter(List<ImageNamePair> image) {
-        return null;
+    private static void applyConditionalBlurFilter(List<ImageNamePair> images) {
+        apply(images, new ForkJoinExecutor(new ConditionalBlurFilter(BLUR_STRENGHT, BLUR_CONDITION)), "Conditional BLur Filter", "conditional");
     }
 
-    private static List<ImageNamePair> applyBlurFilter(List<ImageNamePair> images) {
-        return null;
+    private static void applyBlurFilter(List<ImageNamePair> images) {
+        apply(images, new ForkJoinExecutor(new BlurFilter(BLUR_STRENGHT)), "Blur Filter", "blur");
     }
 
-    private static List<ImageNamePair> applyGlassFilter(List<ImageNamePair> images) {
-        return apply(images, new ExecutorsExecutorPerLine(new GlassFilter(DISTANCE)));
+    private static void applyGlassFilter(List<ImageNamePair> images) {
+        apply(images, new ForkJoinExecutor(new GlassFilter(BRIGHTNESS)), "Glass Filter", "glass");
     }
 
-    private static List<ImageNamePair> applySwirlFilter(List<ImageNamePair> images) {
-        return null;
+    private static void applySwirlFilter(List<ImageNamePair> images) {
+        apply(images, new ForkJoinExecutor(new SwirlFilter()), "Swirl Filter", "swirl");
     }
 
-    private static List<ImageNamePair> applyGrayScaleFilter(List<ImageNamePair> images) {
-        return null;
+    private static void applyGrayScaleFilter(List<ImageNamePair> images) {
+        apply(images, new ForkJoinExecutor(new GrayscaleFilter()), "Gray Scale Filter", "gray");
     }
 
-    private static List<ImageNamePair> applyBrighterFilter(List<ImageNamePair> images) {
-        return apply(images, new ExecutorsExecutorPerLine(new BrighterFilter(BRIGHTNESS)));
+    private static void applyBrighterFilter(List<ImageNamePair> images) {
+        apply(images, new ForkJoinExecutor(new BrighterFilter(BRIGHTNESS)), "Brighter Filter", "brighter");
     }
 
 
-    private static List<ImageNamePair> apply(List<ImageNamePair> images, FilterExecutor filter) {
+    private static void apply(List<ImageNamePair> images, FilterExecutor filter, String filterName, String dirCode) {
+        long startTime = System.nanoTime();
         List<ImageNamePair> result = new ArrayList<>(images.size());
         for (ImageNamePair pair : images) {
             result.add(new ImageNamePair(pair.name(), filter.apply(pair.image())));
         }
-        return result;
+        long endTime = System.nanoTime();
+
+
+
+        List<ImageNamePair> processedImages = result;
+        long duration = (endTime - startTime);  // Time in nanoseconds
+        double seconds = (double) duration / 1_000_000_000.0;
+        System.out.printf("%s in %.3f\n", filterName, seconds);
+        File outputDir = new File("./out/" + dirCode);
+        outputDir.mkdirs();
+        persistImages(processedImages, dirCode);
     }
 
 
