@@ -55,17 +55,17 @@ public class BaseBenchmarkRunner {
     }
 
     public static void runBaseBenchmark(String filter, boolean testGC) throws RunnerException {
-        Options smallImage = buildOptionsForFilterTesting(
-                filter,
-                "turtle",
-                ImageSize.small);
-        new Runner(smallImage).run();
-
-        Options bigImage = buildOptionsForFilterTesting(
-                filter,
-                "4k_background",
-                ImageSize.big);
-        new Runner(bigImage).run();
+//        Options smallImage = buildOptionsForFilterTesting(
+//                filter,
+//                "turtle",
+//                ImageSize.small);
+//        new Runner(smallImage).run();
+//
+//        Options bigImage = buildOptionsForFilterTesting(
+//                filter,
+//                "4k_background",
+//                ImageSize.big);
+//        new Runner(bigImage).run();
 
         Options hugeImage = buildOptionsForFilterTesting(
                 filter,
