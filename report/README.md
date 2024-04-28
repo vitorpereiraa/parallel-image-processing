@@ -785,79 +785,53 @@ The expected results would be for the multithread and threadpool based approache
 Taking a look at the results in the comparison of garbage collectors, we can see the that best garbage collector for the sequential approach is the Serial Garbage Collector, which makes sense since it is the one which is best suited for single processor machines and can't take advantage of multiprocessor hardware.
 The best garbage collectors for the multithreaded and threadpool-based approaches are the Z Garbage Collector and G1 Garbage Collector, having very similar results across the table.
 
-## Blur Filter
-
-The blur filter, as the name implies, intends to blur an image making it seem more pixelated. It works by selecting a pixel and then calculating the rgb values of the neighbouring pixels in a matrix, an editable value refered to as blurEffect, as well as the pixel's own values. It then calculates the average for each colour, red, blue and green and applies it to the selected pixel.
-The value of m determines how blurred an image gets.
-The following excerpt of code is how we implemented said filter:
-
-```java
-@Override
-    public Color apply(int i, int j, Image image) {
-
-        int redSum = 0;
-        int greenSum = 0;
-        int blueSum = 0;
-        int totalPixels = 0;
-
-        for (int h = Math.max(i - this.blurEffect, 0); h <= Math.min(i + this.blurEffect, image.height() - 1); h++) {
-            for (int w = Math.max(j - this.blurEffect, 0); w <= Math.min(j + this.blurEffect, image.width() - 1); w++) {
-                redSum += image.obtainPixel(h, w).red();
-                greenSum += image.obtainPixel(h, w).green();
-                blueSum += image.obtainPixel(h, w).blue();
-                totalPixels++;
-            }
-        }
-        Color result = new Color(redSum / totalPixels, greenSum / totalPixels, blueSum / totalPixels);
-        return result;
-    }
-```
-
-This code is also the code for the Conditional Blur filter which will be shown later but as the name implies it applies a condition. The Blur filter actually works by extending the Conditional Blur's class and calling it while telling it to ignore the condition.
-
-```java
- private static Predicate<Color> DEFAULT_FILTER = color -> true;
-
-    public BlurFilter(int blurEffect) {
-        super(blurEffect, DEFAULT_FILTER);
-    }
-```
 
 ### Blur Filter - Benchmarks
 
+The Benchmarks for this filter were run on a laptop with an AMD Ryzen 5 5500U at 2.1 GHz turboing up to 4.05 GHz with 16GB DDR4 3200MHz of RAM.
+
 #### Blur Filter - Image Benchmarks
 
-|Benchmark                |Samples|8K Image Score|8K Image Score Error (99,9%)|4K Image Score|4K Image Score Error (99,9%)|Small Image Score|Small Image Score Error (99,9%)|
-|-------------------------|-------|--------------|----------------------------|--------------|----------------------------|-----------------|-------------------------------|
-|completableFuturePerLine |5      |891,698155    |27,667546                   |944,911073    |5502,497906                 |23,265753        |13,857176                      |
-|completableFuturePerPixel|5      |17042,388620  |4075,894558                 |2363,805124   |361,923847                  |110,308427       |42,351098                      |
-|completableFuturePerSlice|5      |835,991927    |91,759006                   |407,228052    |466,649880                  |17,370076        |0,780784                       |
-|executorsPerLine         |5      |988,020779    |178,986482                  |942,827294    |735,223745                  |1836,006152      |15165,242275                   |
-|executorsPerPixel        |5      |71773,583080  |3651,481009                 |46247,933560  |6701,852832                 |1940,857841      |559,869029                     |
-|executorsPerSlice        |5      |11722,692743  |93428,551815                |415,955087    |215,664683                  |18,698375        |3,369849                       |
-|forkjoin_10000           |5      |876,806387    |14,622401                   |499,882159    |354,099326                  |74,813898        |250,697315                     |
-|forkjoin_100000          |5      |11581,467601  |92144,939663                |381,620457    |237,273388                  |17,778565        |10,658670                      |
-|forkjoin_5000            |5      |905,685195    |25,935980                   |2410,480916   |14831,208706                |378,415628       |3051,362929                    |
-|forkjoin_50000           |5      |9457,409808   |73893,022821                |419,352637    |215,782762                  |16,650165        |3,261003                       |
-|multithreaded            |5      |850,831590    |39,678039                   |424,136501    |214,376161                  |19,689908        |3,037855                       |
-|sequential               |5      |1513,724917   |127,574961                  |890,857674    |573,226000                  |24,930139        |1,727232                       |
+The provided "Score" values refer to the ms it took to complete the task. Less is better.
+
+ |  Benchmark                  |  Samples  |  8K Image Score  |  8K Image Score Error (99,9%)  |  4K Image Score  |  4K Image Score Error (99,9%)  |  Small Image Score  |  Small Image Score Error (99,9%)  |  Average Score  |  Average Error Score  | 
+ | -------------------------- | --------- | ---------------- | ------------------------------ | ---------------- | ------------------------------ | ------------------- | --------------------------------- | --------------- | --------------------- | 
+ |  completableFuturePerLine  |  5        |  891.698155      |  27.667546                     |  944.911073      |  5502.497906                   |  23.265753          |  13.857176                        |  620.958327     |  1847.021876          | 
+ |  completableFuturePerPixel |  5        |  17042.388620    |  4075.894558                   |  2363.805124     |  361.923847                    |  110.308427         |  42.351098                        |  6505.500057    |  1459.556501          | 
+ |  completableFuturePerSlice |  5        |  835.991927      |  91.759006                     |  407.228052      |  466.649880                    |  17.370076          |  0.780784                         |  420.196668     |  186.063557           | 
+ |  executorsPerLine          |  5        |  988.020779      |  178.986482                    |  942.827294      |  735.223745                    |  1836.006152        |  15165.242275                     |  1255.951408    |  5369.484167          | 
+ |  executorsPerPixel         |  5        |  71773.583080    |  3651.481009                   |  46247.933560    |  6701.852832                   |  1940.857841        |  559.869029                       |  39987.45816    |  3637.734623          | 
+ |  executorsPerSlice         |  5        |  11722.692743    |  93428.551815                  |  415.955087      |  215.664683                    |  18.698375          |  3.369849                         |  4052.448068    |  31215.186116         | 
+ |  forkjoin_10000            |  5        |  876.806387      |  14.622401                     |  499.882159      |  354.099326                    |  74.813898          |  250.697315                       |  483.834148     |  206.473680           | 
+ |  forkjoin_100000           |  5        |  11581.467601    |  92144.939663                  |  381.620457      |  237.273388                    |  17.778565          |  10.658670                        |  3993.62208     |  30797.957574         | 
+ |  forkjoin_5000             |  5        |  905.685195      |  25.935980                     |  2410.480916     |  14831.208706                  |  378.415628         |  3051.362929                      |  1231.527426    |  6969.502872          | 
+ |  forkjoin_50000            |  5        |  9457.409808     |  73893.022821                  |  419.352637      |  215.782762                    |  16.650165          |  3.261003                         |  3297.804203    |  24704.022195         | 
+ |  multithreaded             |  5        |  850.831590      |  39.678039                     |  424.136501      |  214.376161                    |  19.689908          |  3.037855                         |  431.552666     |  85.702352            | 
+ |  sequential                |  5        |  1513.724917     |  127.574961                    |  890.857674      |  573.226000                    |  24.930139          |  1.727232                         |  809.837910     |  234.842731           | 
+
+Looking at the data the Completable Future Per Slice was the approach with the better results with an average of 420, however the multithread and and forkjoin_10000 were quite similar.
 
 #### Blur Filter - Garbage Collector Benchmarks
 
-|Benchmark                 |Samples| Z - Score       |Z - Score Error (99.9%)|Serial - Score | Serial - Score Error (99.9%)| G1 - Score | G1 - Score Error (99.9%) | Parallel - Score | Parallel - Score Error (99.9%)|
-|--------------------------|-------|------------|-------------------|----------------|-----------------------------|----------------------------|----------------------------|----------------------------|----------------------------|
-|completableFuturePerLine |5      |91.390712   |8.434105           |276.282207     |90.390854                   |99.237032                  |17.811772                  |96.203992             |3.017256                |
-|completableFuturePerPixel|5      |3485.980927 |386.929886         |3046.644065    |262.697562                  |12027.306953               |78253.133617               |80527.142989           |671148.657515           |
-|completableFuturePerSlice|5      |83.709259   |7.385267           |235.048728     |67.690336                   |95.160201                  |29.352605                  |72.483810             |4.666519                |
-|executorsPerLine         |5      |103.727619  |5.761015           |364.368561     |20.385486                   |74.627376                  |3.733465                   |99.083471             |8.444283                |
-|executorsPerPixel        |5      |16939.151740|131.638306         |17261.491580   |1391.814057                 |17096.274840               |374.350806                 |19659.542000          |793.124938              |
-|executorsPerSlice        |5      |80.271153   |7.278234           |21203.279886   |180016.924810               |109.072979                 |33.055141                  |1058.983183           |8473.459233             |
-|forkjoin_10000           |5      |91.176156   |29.391555          |274.548904     |113.371156                  |69.096063                  |1.625255                   |74.379143             |8.282180                |
-|forkjoin_100000          |5      |84.258458   |5.878435           |261.596580     |53.369022                   |101.426279                 |38.367968                  |64.073404             |2.061718                |
-|forkjoin_5000            |5      |506.533966  |3601.558980        |268.501755     |57.961378                   |704.929186                 |5061.964849                |63.975520             |1.235512                |
-|forkjoin_50000           |5      |83.849786   |1.678981           |229.283981     |43.294732                   |104.423954                 |48.053304                  |65.885238             |13.344728               |
-|multithreaded            |5      |84.892308   |2.993998           |260.407426     |21.748407                   |110.875927                 |62.217671                  |62.544214             |3.880859                |
-|sequential               |5      |281.965988  |56.791909          |424.134690     |60.044632                   |310.765044                 |50.807122                  |243.150515            |7.529379                |
+The provided "Score" values refer to the ms it took to complete the task. Less is better.
+
+ |  Benchmark                   |  Samples  |  Z - Score    |  Z - Score Error (99.9%)  |  Serial - Score  |  Serial - Score Error (99.9%)  |  G1 - Score  |  G1 - Score Error (99.9%)  |  Parallel - Score  |  Parallel - Score Error (99.9%) |
+ | ---------------------------- | --------- | ------------- | -------------------------- | ---------------- | ------------------------------ | ------------ | --------------------------- | ------------------- | -----------------------------|
+ |  completableFuturePerLine   |  5        |  91.390712    |  8.434105                  |  276.282207     |  90.390854                    |  99.237032   |  17.811772                  |  96.203992         |  3.017256                        | 
+ |  completableFuturePerPixel  |  5        |  3485.980927  |  386.929886                |  3046.644065    |  262.697562                   |  12027.306953 |  78253.133617              |  80527.142989      |  671148.657515                   | 
+ |  completableFuturePerSlice  |  5        |  83.709259    |  7.385267                  |  235.048728     |  67.690336                    |  95.160201   |  29.352605                  |  72.483810         |  4.666519                        | 
+ |  executorsPerLine           |  5        |  103.727619   |  5.761015                  |  364.368561     |  20.385486                    |  74.627376   |  3.733465                   |  99.083471         |  8.444283                        | 
+ |  executorsPerPixel          |  5        |  16939.151740 |  131.638306                |  17261.491580   |  1391.814057                  |  17096.274840 |  374.350806                |  19659.542000      |  793.124938                      | 
+ |  executorsPerSlice          |  5        |  80.271153    |  7.278234                  |  21203.279886   |  180016.924810                |  109.072979  |  33.055141                  |  1058.983183       |  8473.459233                     | 
+ |  forkjoin_10000             |  5        |  91.176156    |  29.391555                 |  274.548904     |  113.371156                   |  69.096063   |  1.625255                   |  74.379143         |  8.282180                        | 
+ |  forkjoin_100000            |  5        |  84.258458    |  5.878435                  |  261.596580     |  53.369022                    |  101.426279  |  38.367968                  |  64.073404         |  2.061718                        | 
+ |  forkjoin_5000              |  5        |  506.533966   |  3601.558980               |  268.501755     |  57.961378                    |  704.929186  |  5061.964849                |  63.975520         |  1.235512                        | 
+ |  forkjoin_50000             |  5        |  83.849786    |  1.678981                  |  229.283981     |  43.294732                    |  104.423954  |  48.053304                  |  65.885238         |  13.344728                       | 
+ |  multithreaded              |  5        |  84.892308    |  2.993998                  |  260.407426     |  21.748407                    |  110.875927  |  62.217671                  |  62.544214         |  3.880859                        | 
+ |  sequential                 |  5        |  281.965988   |  56.791909                 |  424.134690     |  60.044632                    |  310.765044  |  50.807122                  |  243.150515        |  7.529379                        | 
+ |  Average                    |           |  1826,41      |  353.81                    |  3675.47        |  15183.31                     |  2575.27     |  6997.87                    |  8506.29           |  56705.64                        | 
+
+In this table we can see that the Z garbage collector offered the best results, with an average score across all approaches of 1825, followed quite closely by the G1.
 
 ### Conditional Blur Filter
 
@@ -896,41 +870,52 @@ We opted to add a condition in which the blurred was only applied to pixels wher
 
 ### Conditional Blur Filter - Benchmarks
 
+The Benchmarks for this filter were run on a laptop with an AMD Ryzen 5 5500U at 2.1 GHz turboing up to 4.05 GHz with 16GB DDR4 3200MHz of RAM.
+
 #### Conditional Blur Filter - Image Benchmarks
 
-| Benchmark                  | Samples | 8K Image Score | 8K Image Score Error (99,9%) | 4K Image Score | 4K Image Score Error (99,9%) | Small Image Score | Small Image Score Error (99,9%) |
-|----------------------------|---------|----------------|------------------------------|----------------|------------------------------|-------------------|---------------------------------|
-| completableFuturePerLine  | 5       | 1611.539003    | 412.153513                   | 193.942370     | 12.061974                    | 13.048346         | 1.292756                        |
-| completableFuturePerPixel | 5       | 12314.091060   | 5181.213991                  | 2139.120493    | 1097.171734                  | 69.819799         | 8.998609                        |
-| completableFuturePerSlice | 5       | 1575.487100    | 454.223025                   | 303.106583     | 57.753447                    | 9.335202          | 0.830492                        |
-| executorsPerLine          | 5       | 2451.159402    | 574.130681                   | 2850.190756    | 6466.871133                  | 5221.212017       | 32817.130147                    |
-| executorsPerPixel         | 5       | 450427.257700  | 2007478.225829               | 52869.548220   | 6748.680334                  | 1747.911443       | 399.425647                      |
-| executorsPerSlice         | 5       | 1807.123369    | 941.684040                   | 272.155506     | 49.966611                    | 12.903756         | 15.369485                       |
-| forkjoin_10000            | 5       | 1841.709693    | 316.272053                   | 257.465277     | 111.597045                   | 10.056931         | 1.239905                        |
-| forkjoin_100000           | 5       | 1704.971948    | 323.139641                   | 253.418230     | 98.290633                    | 8.590150          | 0.370331                        |
-| forkjoin_5000             | 5       | 1820.995391    | 472.628128                   | 241.112594     | 66.021354                    | 10.707396         | 0.498365                        |
-| forkjoin_50000            | 5       | 1698.900632    | 625.309903                   | 253.383146     | 497.929352                   | 9.424607          | 1.290791                        |
-| multithreaded             | 5       | 1586.460310    | 460.773835                   | 168.019900     | 15.621496                    | 29.959753         | 124.050057                      |
-| sequential                | 5       | 2415.338696    | 244.358959                   | 293.654879     | 132.082910                   | 12.386831         | 2.275467                        |
+The provided "Score" values refer to the ms it took to complete the task. Less is better.
+
+
+ |  Benchmark                   |  Samples  |  8K Image Score  |  4K Image Score  |  Small Image Score  |  Average Score  |  Average Error Score  | 
+ | ---------------------------- | --------- | ---------------- | ---------------- | ------------------- | --------------- | --------------------- | 
+ |  completableFuturePerLine   |  5        |  1611.539003     |  193.942370      |  13.048346          |  606.509573    |  142.169414           | 
+ |  completableFuturePerPixel  |  5        |  12314.091060    |  2139.120493     |  69.819799          |  4841.343117   |  2096.467908          | 
+ |  completableFuturePerSlice  |  5        |  1575.487100     |  303.106583      |  9.335202           |  629.976295    |  174.585624           | 
+ |  executorsPerLine           |  5        |  2451.159402     |  2850.190756     |  5221.212017        |  3507.187725   |  7941.547987          | 
+ |  executorsPerPixel          |  5        |  450427.257700   |  52869.548220    |  1747.911443        |  168348.572121 |  669542.443604        | 
+ |  executorsPerSlice          |  5        |  1807.123369     |  272.155506      |  12.903756          |  697.394543    |  1021.005037          | 
+ |  forkjoin_10000             |  5        |  1841.709693     |  257.465277      |  10.056931          |  702.077634    |  127.557211           | 
+ |  forkjoin_100000            |  5        |  1704.971948     |  253.418230      |  8.590150           |  655.660776    |  143.105542           | 
+ |  forkjoin_5000              |  5        |  1820.995391     |  241.112594      |  10.707396          |  690.271127    |  179.782929           | 
+ |  forkjoin_50000             |  5        |  1698.900632     |  253.383146      |  9.424607           |  653.902128    |  229.179682           | 
+ |  multithreaded              |  5        |  1586.460310     |  168.019900      |  29.959753          |  928.813987    |  171.657756           | 
+ |  sequential                 |  5        |  2415.338696     |  293.654879      |  12.386831          |  907.460135    |  125.282669           | 
+
+Taking into account the results of blur filter one would expect the results to be quite similar, however they're not.
 
 #### Conditional Blur Filter - Garbage Collector Benchmarks
 
-Got it! Here's the data organized in the requested format:
+The provided "Score" values refer to the ms it took to complete the task. Less is better.
 
-| Benchmark                 | Samples | Z - Score   | Z - Score Error (99.9%) | Serial - Score | Serial - Score Error (99.9%) | G1 - Score | G1 - Score Error (99.9%) | Parallel - Score | Parallel - Score Error (99.9%) |
-|--------------------------|---------|-------------|--------------------------|----------------|------------------------------|------------|---------------------------|-------------------|--------------------------------|
-| completableFuturePerLine | 5       | 91.390712   | 8.434105                 | 276.282207    | 90.390854                   | 99.237032  | 17.811772                 | 96.203992        | 3.017256                       |
-| completableFuturePerPixel| 5       | 3485.980927 | 386.929886               | 3046.644065   | 262.697562                  | 12027.306953| 78253.133617               | 80527.142989     | 671148.657515                  |
-| completableFuturePerSlice| 5       | 83.709259   | 7.385267                 | 235.048728    | 67.690336                   | 95.160201  | 29.352605                 | 72.483810        | 4.666519                       |
-| executorsPerLine         | 5       | 103.727619  | 5.761015                 | 364.368561    | 20.385486                   | 74.627376  | 3.733465                  | 99.083471        | 8.444283                       |
-| executorsPerPixel        | 5       | 16939.151740| 131.638306               | 17261.491580  | 1391.814057                 | 17096.274840| 374.350806                | 19659.542000     | 793.124938                     |
-| executorsPerSlice        | 5       | 80.271153   | 7.278234                 | 21203.279886  | 180016.924810               | 109.072979 | 33.055141                 | 1058.983183      | 8473.459233                    |
-| forkjoin_10000           | 5       | 91.176156   | 29.391555                | 274.548904    | 113.371156                  | 69.096063  | 1.625255                  | 74.379143        | 8.282180                       |
-| forkjoin_100000          | 5       | 84.258458   | 5.878435                 | 261.596580    | 53.369022                   | 101.426279 | 38.367968                 | 64.073404        | 2.061718                       |
-| forkjoin_5000            | 5       | 506.533966  | 3601.558980               | 268.501755    | 57.961378                   | 704.929186 | 5061.964849               | 63.975520        | 1.235512                       |
-| forkjoin_50000           | 5       | 83.849786   | 1.678981                 | 229.283981    | 43.294732                   | 104.423954 | 48.053304                 | 65.885238        | 13.344728                      |
-| multithreaded            | 5       | 84.892308   | 2.993998                 | 260.407426    | 21.748407                   | 110.875927 | 62.217671                 | 62.544214        | 3.880859                       |
-| sequential               | 5       | 281.965988  | 56.791909                | 424.134690    | 60.044632                   | 310.765044 | 50.807122                 | 243.150515       | 7.529379                       |
+ | Benchmark                 | Samples | Z-Score      | Z-Score Error (99.9%) | Serial-Score | Serial-Score Error (99.9%) | G1-Score     | G1-Score Error (99.9%) | Parallel-Score | Parallel-Score Error (99.9%) | 
+ | ------------------------- | ------- | ------------ | --------------------- | ------------ | -------------------------- | ------------ | ---------------------- | -------------- | ---------------------------- | 
+ | completableFuturePerLine  | 5       | 190,708747   | 98,392113             | 284,761398   | 53,204041                  | 153,690224   | 49,400192              | 190,556311     | 170,391943                   | 
+ | completableFuturePerPixel | 5       | 1857,795493  | 655,750547            | 2702,780720  | 1538,204495                | 1826,180726  | 659,562705             | 1613,091974    | 417,246850                   | 
+ | completableFuturePerSlice | 5       | 198,865328   | 45,548294             | 249,929803   | 48,818484                  | 156,038694   | 15,494153              | 156,293350     | 43,014482                    | 
+ | executorsPerLine          | 5       | 617,891443   | 258,160405            | 802,738274   | 471,956263                 | 723,603546   | 1104,684651            | 1493,017260    | 3464,186272                  | 
+ | executorsPerPixel         | 5       | 49480,116300 | 4872,518698           | 49052,583420 | 3720,350485                | 47042,323180 | 5353,740086            | 47796,633480   | 3381,130109                  | 
+ | executorsPerSlice         | 5       | 192,205568   | 30,301399             | 249,522971   | 116,459323                 | 184,959002   | 100,918177             | 163,555531     | 26,428349                    | 
+ | forkjoin_10000            | 5       | 179,326266   | 15,377296             | 288,422148   | 99,480977                  | 214,134181   | 136,976006             | 148,284107     | 14,506714                    | 
+ | forkjoin_100000           | 5       | 190,654745   | 33,682460             | 276,588976   | 54,187207                  | 187,219819   | 39,720340              | 168,602849     | 63,068546                    | 
+ | forkjoin_5000             | 5       | 212,904035   | 100,442822            | 308,692050   | 41,089024                  | 189,511494   | 30,783345              | 164,954400     | 26,782122                    | 
+ | forkjoin_50000            | 5       | 193,626310   | 27,249635             | 304,907545   | 76,572429                  | 185,825691   | 41,952559              | 150,154760     | 19,767248                    | 
+ | multithreaded             | 5       | 224,467632   | 105,428207            | 330,047832   | 54,646287                  | 190,416349   | 45,199054              | 180,183848     | 76,423665                    | 
+ | sequential                | 5       | 339,454050   | 81,491701             | 354,600264   | 71,455570                  | 273,944253   | 23,269739              | 251,386391     | 14,832578                    | 
+ |  Average                  |         |  4489,83      |  527.03             |  4600.46        |  528.87                |  4277.32     |  633.48                |  4373.06           |  643.15               |  |  | 
+
+Similar to the last table, the results here are quite different to the normal blur. The G1 garbage collector actually performed the best. However it must be noted that all gcs had pretty similar performances.
+
 
 ### Conclusion
 
