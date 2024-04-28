@@ -1,13 +1,13 @@
 "Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: filterName","Param: pathToFile"
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerLine","avgt",1,5,2.480876,0.348970,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerPixel","avgt",1,5,40.811620,1.952428,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.completableFuturePerSlice","avgt",1,5,13.857710,1.502096,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerLine","avgt",1,5,1.393742,0.160871,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerPixel","avgt",1,5,395.049808,22.414668,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.executorsPerSlice","avgt",1,5,1.020407,0.018698,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_10000","avgt",1,5,1.339378,0.028556,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_100000","avgt",1,5,0.934713,0.028747,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_5000","avgt",1,5,1.381923,0.178934,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.forkjoin_50000","avgt",1,5,1.008926,0.015426,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.multithreaded","avgt",1,5,1.337218,0.037856,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
-"pt.ipp.isep.dei.sismd.benchmarking.BaseBenchmark.sequential","avgt",1,5,1.357654,0.041508,"ms/op",pt.ipp.isep.dei.sismd.filters.GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"completableFuturePerLine","avgt",1,5,2.480876,0.348970,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"completableFuturePerPixel","avgt",1,5,40.811620,1.952428,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"completableFuturePerSlice","avgt",1,5,13.857710,1.502096,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"executorsPerLine","avgt",1,5,1.393742,0.160871,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"executorsPerPixel","avgt",1,5,395.049808,22.414668,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"executorsPerSlice","avgt",1,5,1.020407,0.018698,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_10000","avgt",1,5,1.339378,0.028556,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_100000","avgt",1,5,0.934713,0.028747,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_5000","avgt",1,5,1.381923,0.178934,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"forkjoin_50000","avgt",1,5,1.008926,0.015426,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"multithreaded","avgt",1,5,1.337218,0.037856,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
+"sequential","avgt",1,5,1.357654,0.041508,"ms/op",GrayscaleFilter,src/main/resources/imgs/small/turtle.jpg
