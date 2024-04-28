@@ -166,7 +166,59 @@ The completable future approach consists in dividing the image in a certain way 
 
 ### Benchmarking Methodology
 
-To benchmark the performance of each filter, the Java library Java Microbenchmarking Harness was used. This library allows us to easily build and run benchmarks
+To benchmark the performance of each filter, the Java library Java Microbenchmarking Harness (jmh) was used. This library allows us to easily build and run benchmarks
+
+```java
+@State(Scope.Benchmark)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+public class BaseBenchmark {
+
+    @Param("src/main/resources/imgs/turtle.jpg")
+    private String pathToFile;
+
+    @Param("pt.ipp.isep.dei.sismd.filters.BrighterFilter")
+    private String filterName;
+
+    private Filter filter;
+
+    private Image image;
+
+    @Setup
+    public void setup() {
+        filter = (Filter) getInstance(filterName);
+        image = Utils.loadImage(new File(pathToFile));
+    }
+
+    @Benchmark
+    public Image sequential() {
+        return new SequentialExecutor(filter).apply(image);
+    }
+
+    @Benchmark
+    public Image multithreaded() {
+        return new MultithreadedExecutor(filter).apply(image);
+    }
+  ...
+}
+```
+
+A base benchmark was created that received a filter and image as parameter and executes the benchmarks foreach image processing algorithm and generates a csv.
+
+```java
+    return new OptionsBuilder()
+                .include(BaseBenchmark.class.getSimpleName())
+                .param("pathToFile", "src/main/resources/imgs/"+ ImageSize.big.name() + "/4k_background.jpg")
+                .param("filterName", filter)
+                .jvmArgs("-XX:+Use" + gc.name())
+                .warmupIterations(3)
+                .forks(1)
+                .resultFormat(ResultFormatType.CSV)
+                .result("report/benchmark_results/"+ getSimpleFilterName(filter) + "/" + gc.name().toLowerCase().replace("gc", "") + "/" + System.currentTimeMillis() + ".csv")
+                .build();
+```
+
+As can be seen above, jmh can fork the JVM, i.e. create another jvm, and it allows us to pass jvmArgs. We used that functionality to dynamically pass different GC types and execute the benchmarks.
 
 ## Brighter Filter
 
