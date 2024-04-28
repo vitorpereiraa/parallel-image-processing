@@ -1,17 +1,23 @@
 package pt.ipp.isep.dei.sismd;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+
 import pt.ipp.isep.dei.sismd.domain.Image;
 import pt.ipp.isep.dei.sismd.executors.ExecutorsExecutorPerLine;
 import pt.ipp.isep.dei.sismd.executors.FilterExecutor;
 import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
-import pt.ipp.isep.dei.sismd.lixo.multithreaded.ExecutorBlurFilter;
-
-import java.io.File;
-import java.util.*;
+import pt.ipp.isep.dei.sismd.filters.GlassFilter;
 @Deprecated
 public class MultipleImagesMain {
 
     private static final int BRIGHTNESS = 128;
+    private static final int DISTANCE = 20;
 
     private record ImageNamePair(String name, Image image) {
     }
@@ -92,7 +98,7 @@ public class MultipleImagesMain {
     }
 
     private static List<ImageNamePair> applyGlassFilter(List<ImageNamePair> images) {
-        return null;
+        return apply(images, new ExecutorsExecutorPerLine(new GlassFilter(DISTANCE)));
     }
 
     private static List<ImageNamePair> applySwirlFilter(List<ImageNamePair> images) {

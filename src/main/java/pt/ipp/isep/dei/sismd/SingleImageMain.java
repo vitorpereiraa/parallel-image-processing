@@ -1,18 +1,25 @@
 package pt.ipp.isep.dei.sismd;
 
-import pt.ipp.isep.dei.sismd.domain.Image;
-import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
-import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
-import pt.ipp.isep.dei.sismd.lixo.multithreaded.MultithreadedBlurFilter;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.Scanner;
+
+import pt.ipp.isep.dei.sismd.domain.Image;
+import pt.ipp.isep.dei.sismd.executors.SequentialExecutor;
+import pt.ipp.isep.dei.sismd.filters.BrighterFilter;
+import pt.ipp.isep.dei.sismd.filters.GlassFilter;
 @Deprecated
 public class SingleImageMain {
 
     private static final int BRIGHTNESS = 128;
+    private static final int DISTANCE = 20;
 
     public static void main(String[] args) throws IOException {
 
@@ -105,7 +112,8 @@ public class SingleImageMain {
     }
 
     private static Image applyGlassFilter(Image image) {
-        return null;
+        System.out.println("Applying Glass Filter with "+ DISTANCE + "of maximum pixel distance...");
+        return new SequentialExecutor(new GlassFilter(DISTANCE)).apply(image);
     }
 
     private static Image applySwirlFilter(Image image) {
