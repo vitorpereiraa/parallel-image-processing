@@ -5,9 +5,7 @@ import pt.ipp.isep.dei.sismd.domain.Image;
 
 import java.util.function.Predicate;
 
-
 public class ConditionalBlurFilter implements Filter {
-
 
     private int blurEffect;
     private Predicate<Color> filterCondition;
@@ -27,12 +25,10 @@ public class ConditionalBlurFilter implements Filter {
         this.filterCondition = color -> color.red() > color.blue() && color.red() > color.green();
     }
 
-
     @Override
     public Color apply(int i, int j, Image image) {
 
         if (!filterCondition.test(image.obtainPixel(i, j))) return image.obtainPixel(i, j);
-
 
         int redSum = 0;
         int greenSum = 0;
