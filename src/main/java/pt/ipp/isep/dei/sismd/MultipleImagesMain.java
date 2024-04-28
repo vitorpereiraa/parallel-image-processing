@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.*;
 import java.util.function.Predicate;
 
-@Deprecated
+
 public class MultipleImagesMain {
 
     private static final int BRIGHTNESS = 128;
